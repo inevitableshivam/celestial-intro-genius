@@ -15,15 +15,14 @@ const mockHistory = [
     date: "2024-02-19",
     line: "Your work on sustainable technology caught my attention...",
   },
-  // Add more mock data as needed
 ];
 
 export const HistoryGrid = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 gap-4 max-h-[500px] overflow-y-auto pr-2">
       {mockHistory.map((item) => (
-        <div key={item.id} className="glass-card p-6 hover:bg-white/10 transition-all">
-          <div className="flex items-center gap-3 mb-4">
+        <div key={item.id} className="glass-card p-4 hover:bg-white/10 transition-all">
+          <div className="flex items-center gap-3 mb-3">
             <div className="rounded-full p-2 nebula-gradient">
               <User className="w-4 h-4 text-nebula-50" />
             </div>
@@ -32,7 +31,7 @@ export const HistoryGrid = () => {
               <p className="text-sm text-nebula-300">{item.company}</p>
             </div>
           </div>
-          <p className="text-sm text-nebula-200 mb-4 line-clamp-3">{item.line}</p>
+          <p className="text-sm text-nebula-200 mb-3 line-clamp-2">{item.line}</p>
           <div className="flex items-center gap-2 text-nebula-400 text-sm">
             <Calendar className="w-4 h-4" />
             {item.date}
