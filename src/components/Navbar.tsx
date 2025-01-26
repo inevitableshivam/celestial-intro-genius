@@ -11,7 +11,6 @@ export const Navbar = () => {
             alt="Nebula Logo" 
             className="h-8"
           />
-          <span className="text-xl font-semibold text-cosmic-300">break the ice</span>
         </div>
         
         <div className="flex items-center gap-4">
