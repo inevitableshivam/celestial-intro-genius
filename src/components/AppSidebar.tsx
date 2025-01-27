@@ -46,7 +46,7 @@ export function AppSidebar() {
       <SidebarContent>
         <div className="flex items-center gap-2 px-6 py-4 mb-6">
           <img 
-            src="/lovable-uploads/e7e2ffa4-41f9-4d64-bfbf-7cf60a710117.png" 
+            src="/lovable-uploads/4b9c5868-6b83-4442-98b7-7e71d5e13838.png" 
             alt="Nebula Logo" 
             className="h-8"
           />
@@ -58,10 +58,10 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     onClick={() => navigate(item.path)}
-                    className="flex items-center gap-3 px-6 py-2 w-full text-nebula-300 hover:text-nebula-50 hover:bg-white/5 transition-colors"
+                    className="flex items-center gap-3 px-6 py-3 w-full text-nebula-300 hover:text-cosmic-300 hover:bg-cosmic-500/5 transition-colors rounded-lg"
                   >
                     <item.icon className="w-5 h-5" />
-                    <span>{item.title}</span>
+                    <span className="font-medium">{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

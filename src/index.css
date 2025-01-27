@@ -38,7 +38,7 @@
 }
 
 .glass-card {
-  @apply bg-[#0E1320] backdrop-blur-lg border border-[#1E2A45] rounded-lg shadow-xl;
+  @apply bg-[#0E1320]/50 backdrop-blur-lg border border-[#1E2A45] rounded-lg shadow-xl;
 }
 
 .nebula-gradient {
