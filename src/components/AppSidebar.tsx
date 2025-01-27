@@ -1,4 +1,4 @@
-import { Home, History } from 'lucide-react';
+import { Rocket, History, PenTool, Book, Settings } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -12,14 +12,29 @@ import { useNavigate } from 'react-router-dom';
 
 const items = [
   {
-    title: "Home",
+    title: "Dashboard",
     path: "/",
-    icon: Home,
+    icon: Rocket,
   },
   {
     title: "History",
     path: "/history",
     icon: History,
+  },
+  {
+    title: "AI Writer",
+    path: "/writer",
+    icon: PenTool,
+  },
+  {
+    title: "Resources",
+    path: "/resources",
+    icon: Book,
+  },
+  {
+    title: "Settings",
+    path: "/settings",
+    icon: Settings,
   },
 ];
 
@@ -29,6 +44,13 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
+        <div className="flex items-center gap-2 px-6 py-4 mb-6">
+          <img 
+            src="/lovable-uploads/e7e2ffa4-41f9-4d64-bfbf-7cf60a710117.png" 
+            alt="Nebula Logo" 
+            className="h-8"
+          />
+        </div>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -36,9 +58,9 @@ export function AppSidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     onClick={() => navigate(item.path)}
-                    className="cursor-pointer"
+                    className="flex items-center gap-3 px-6 py-2 w-full text-nebula-300 hover:text-nebula-50 hover:bg-white/5 transition-colors"
                   >
-                    <item.icon />
+                    <item.icon className="w-5 h-5" />
                     <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

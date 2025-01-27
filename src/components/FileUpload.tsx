@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Upload, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 
@@ -55,20 +55,20 @@ export const FileUpload = () => {
 
   return (
     <div
-      className={`glass-card p-8 transition-all duration-300 ${
-        isDragging ? 'border-cosmic-500' : ''
+      className={`border-2 border-dashed border-nebula-700 rounded-lg p-8 transition-all duration-300 ${
+        isDragging ? 'border-cosmic-500 bg-cosmic-500/5' : ''
       }`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
       <div className="flex flex-col items-center gap-4">
-        <div className="rounded-full p-4 nebula-gradient">
-          <Upload className="w-8 h-8 text-nebula-50" />
-        </div>
-        <h3 className="text-xl font-semibold">Upload CSV File</h3>
-        <p className="text-sm text-nebula-300 text-center">
-          Drag and drop your CSV file here, or click to select
+        <Upload className="w-8 h-8 text-nebula-400" />
+        <p className="text-nebula-300 text-center">
+          Drag and drop your CSV file here, or click to browse
+        </p>
+        <p className="text-xs text-nebula-400">
+          Supported format: CSV
         </p>
         <input
           type="file"
@@ -79,15 +79,9 @@ export const FileUpload = () => {
         />
         <label htmlFor="file-upload">
           <Button variant="outline" className="mt-2">
-            Select File
+            Browse Files
           </Button>
         </label>
-        {file && (
-          <div className="flex items-center gap-2 text-sm text-nebula-300">
-            <CheckCircle2 className="w-4 h-4 text-green-500" />
-            {file.name}
-          </div>
-        )}
       </div>
     </div>
   );

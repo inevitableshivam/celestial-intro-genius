@@ -32,13 +32,13 @@
     @apply border-border;
   }
   body {
-    @apply bg-nebula-900 text-nebula-50;
-    background-image: radial-gradient(circle at center, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+    @apply bg-[#0B0F19] text-nebula-50;
+    background-image: radial-gradient(circle at center, rgba(139, 92, 246, 0.05) 0%, transparent 70%);
   }
 }
 
 .glass-card {
-  @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg shadow-xl;
+  @apply bg-[#0E1320] backdrop-blur-lg border border-[#1E2A45] rounded-lg shadow-xl;
 }
 
 .nebula-gradient {
