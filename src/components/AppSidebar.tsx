@@ -1,74 +1,69 @@
-import { Rocket, History, PenTool, Book, Settings } from 'lucide-react';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '@/components/ui/sidebar';
-import { useNavigate } from 'react-router-dom';
+import { 
+  HomeIcon,
+  ClockIcon,
+  Pencil2Icon,
+  ReaderIcon,
+} from "@radix-ui/react-icons";
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const items = [
   {
     title: "Dashboard",
     path: "/",
-    icon: Rocket,
+    icon: HomeIcon,
   },
   {
     title: "History",
     path: "/history",
-    icon: History,
+    icon: ClockIcon,
   },
   {
     title: "AI Writer",
     path: "/writer",
-    icon: PenTool,
+    icon: Pencil2Icon,
   },
   {
     title: "Resources",
     path: "/resources",
-    icon: Book,
-  },
-  {
-    title: "Settings",
-    path: "/settings",
-    icon: Settings,
+    icon: ReaderIcon,
   },
 ];
 
 export function AppSidebar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
-    <Sidebar>
-      <SidebarContent>
-        <div className="flex items-center gap-2 px-6 py-4 mb-6">
-          <img 
-            src="/lovable-uploads/4b9c5868-6b83-4442-98b7-7e71d5e13838.png" 
-            alt="Nebula Logo" 
-            className="h-8"
-          />
-        </div>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton 
-                    onClick={() => navigate(item.path)}
-                    className="flex items-center gap-3 px-6 py-3 w-full text-nebula-300 hover:text-cosmic-300 hover:bg-cosmic-500/5 transition-colors rounded-lg"
-                  >
-                    <item.icon className="w-5 h-5" />
-                    <span className="font-medium">{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+    <div className="h-[calc(100vh-64px)] w-[280px] flex-shrink-0 border-r border-l border-nebula-800/20 bg-background/40">
+      <div className="flex-1 py-8">
+        <nav className="space-y-4 px-3">
+          {items.map((item) => {
+            const isActive = location.pathname === item.path;
+            return (
+              <Button
+                key={item.title}
+                variant="ghost"
+                onClick={() => navigate(item.path)}
+                className={cn(
+                  "w-full justify-start gap-8 px-5 py-3 text-lg rounded-md",
+                  "hover:bg-white/5 hover:text-white",
+                  "transition-colors duration-200",
+                  "relative font-medium",
+                  {
+                    "bg-white/5 text-white": isActive,
+                    "text-muted-foreground": !isActive,
+                  }
+                )}
+              >
+                <item.icon className="h-[24px] w-[24px]" />
+                <span>{item.title}</span>
+              </Button>
+            );
+          })}
+        </nav>
+      </div>
+    </div>
   );
 }

@@ -1,29 +1,40 @@
+@import url("https://api.fontshare.com/v2/css?f[]=clash-grotesk@200,400,300,500,600,700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
+    --radius: 0.5rem;
+
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
+
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
+
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
+
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
+
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
+
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
+
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
+
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
-    --radius: 0.75rem;
   }
 }
 
@@ -32,9 +43,29 @@
     @apply border-border;
   }
   body {
-    @apply bg-[#0B0F19] text-nebula-50;
+    @apply bg-background text-foreground;
+    font-family: "Clash Grotesk", sans-serif;
+    font-weight: 400;
     background-image: radial-gradient(circle at center, rgba(139, 92, 246, 0.05) 0%, transparent 70%);
   }
+  input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: hsl(var(--border)) !important;
+  }
+}
+
+/* Adjust border radius globally */
+.rounded-lg {
+  border-radius: calc(var(--radius) * 1.25) !important;
+}
+
+.rounded-md {
+  border-radius: var(--radius) !important;
+}
+
+.rounded-sm {
+  border-radius: calc(var(--radius) * 0.75) !important;
 }
 
 .glass-card {

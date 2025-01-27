@@ -5,11 +5,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
+import { Navbar } from "./components/Navbar";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
-import { Navbar } from "./components/Navbar";
 
 const queryClient = new QueryClient();
 
@@ -50,24 +50,24 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <SidebarProvider>
-          <div className="flex min-h-screen w-full">
-            <Routes>
-              <Route path="/auth" element={<Auth />} />
-              <Route
-                path="/"
-                element={
-                  <PrivateRoute>
-                    <div className="flex min-h-screen w-full">
-                      <AppSidebar />
-                      <main className="flex-1">
-                        <Navbar />
+          <div className="min-h-screen bg-background">
+            <Navbar />
+            <div className="flex w-full">
+              <AppSidebar />
+              <div className="flex-1">
+                <Routes>
+                  <Route path="/auth" element={<Auth />} />
+                  <Route
+                    path="/"
+                    element={
+                      <PrivateRoute>
                         <Index />
-                      </main>
-                    </div>
-                  </PrivateRoute>
-                }
-              />
-            </Routes>
+                      </PrivateRoute>
+                    }
+                  />
+                </Routes>
+              </div>
+            </div>
           </div>
         </SidebarProvider>
       </BrowserRouter>

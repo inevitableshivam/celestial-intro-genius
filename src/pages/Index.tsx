@@ -43,9 +43,9 @@ const ProcessingStatus = () => (
 
 const Index = () => {
   return (
-    <div className="min-h-screen w-full">
-      <div className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div className="flex-1 w-full px-8 py-6">
+      <div className="max-w-[1800px] mx-auto w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
           <StatsCard
             title="Total Contacts"
             value="2,345"
