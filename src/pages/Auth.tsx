@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Mail, Lock, Building2, User, Briefcase, Loader2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
+import { BackgroundBeams } from "@/components/ui/background-beams";
 
 const UserProfileForm = ({ 
   onSubmit, 
@@ -79,7 +80,6 @@ export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showProfileForm, setShowProfileForm] = useState(false);
-  const [googleData, setGoogleData] = useState<any>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -179,178 +179,158 @@ export default function Auth() {
 
   const dummyProfiles = [
     {
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
       name: "Sarah Wilson",
       role: "Product Manager",
-      company: "TechCorp",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
+      company: "TechCorp"
     },
     {
+      image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b",
       name: "Michael Chen",
       role: "Lead Developer",
-      company: "InnovateSoft",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"
+      company: "InnovateSoft"
     },
     {
+      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
       name: "Emily Rodriguez",
       role: "UX Designer",
-      company: "DesignHub",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80"
+      company: "DesignHub"
     }
   ];
 
   return (
-    <div className="min-h-screen flex">
-      <div className="flex-1 flex items-center justify-center p-8">
-        <Card className="w-full max-w-md p-8 space-y-6 glass-card">
-          <div className="text-center">
-            <img 
-              src="/lovable-uploads/4b9c5868-6b83-4442-98b7-7e71d5e13838.png" 
-              alt="Nebula Logo" 
-              className="h-12 mx-auto mb-6"
-            />
-            <h2 className="text-2xl font-semibold text-gradient">Welcome to Nebula</h2>
-            <p className="text-nebula-300 mt-2">Your AI-Powered Email Personalization Tool</p>
-          </div>
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-nebula-900">
+      <BackgroundBeams className="opacity-20" />
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="flex gap-8 items-center justify-center">
+          <Card className="w-full max-w-md p-8 space-y-6 glass-card backdrop-blur-xl bg-opacity-20">
+            <div className="text-center">
+              <img 
+                src="/lovable-uploads/4b9c5868-6b83-4442-98b7-7e71d5e13838.png" 
+                alt="Nebula Logo" 
+                className="h-12 mx-auto mb-6"
+              />
+              <h2 className="text-2xl font-semibold bg-gradient-to-r from-cosmic-300 via-cosmic-400 to-cosmic-500 bg-clip-text text-transparent">
+                Welcome to Nebula
+              </h2>
+              <p className="text-nebula-300 mt-2">Your AI-Powered Email Personalization Tool</p>
+            </div>
 
-          {showProfileForm ? (
-            <UserProfileForm onSubmit={handleProfileSubmit} loading={loading} />
-          ) : (
-            <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="signin">Sign In</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
-              </TabsList>
+            {showProfileForm ? (
+              <UserProfileForm onSubmit={handleProfileSubmit} loading={loading} />
+            ) : (
+              <Tabs defaultValue="signin" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="signin">Sign In</TabsTrigger>
+                  <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                </TabsList>
 
-              <TabsContent value="signin">
-                <form onSubmit={handleEmailSignIn} className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="space-y-1">
-                      <Label>Email</Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-nebula-400" />
-                        <Input
-                          type="email"
-                          placeholder="Enter your email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          className="pl-10"
-                        />
+                <TabsContent value="signin">
+                  <form onSubmit={handleEmailSignIn} className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="space-y-1">
+                        <Label>Email</Label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-3 h-4 w-4 text-nebula-400" />
+                          <Input
+                            type="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="pl-10"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <Label>Password</Label>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-3 h-4 w-4 text-nebula-400" />
+                          <Input
+                            type="password"
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="pl-10"
+                          />
+                        </div>
                       </div>
                     </div>
-                    <div className="space-y-1">
-                      <Label>Password</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-nebula-400" />
-                        <Input
-                          type="password"
-                          placeholder="Enter your password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          className="pl-10"
-                        />
+
+                    <Button
+                      type="submit"
+                      className="w-full nebula-gradient"
+                      disabled={loading}
+                    >
+                      {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      Sign In
+                    </Button>
+                  </form>
+                </TabsContent>
+
+                <TabsContent value="signup">
+                  <form onSubmit={handleEmailSignUp} className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="space-y-1">
+                        <Label>Email</Label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-3 h-4 w-4 text-nebula-400" />
+                          <Input
+                            type="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="pl-10"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <Label>Password</Label>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-3 h-4 w-4 text-nebula-400" />
+                          <Input
+                            type="password"
+                            placeholder="Choose a password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="pl-10"
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <Button
-                    type="submit"
-                    className="w-full nebula-gradient"
-                    disabled={loading}
-                  >
-                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Sign In
-                  </Button>
-                </form>
-              </TabsContent>
+                    <Button
+                      type="submit"
+                      className="w-full nebula-gradient"
+                      disabled={loading}
+                    >
+                      {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      Continue
+                    </Button>
+                  </form>
+                </TabsContent>
+              </Tabs>
+            )}
+          </Card>
 
-              <TabsContent value="signup">
-                <form onSubmit={handleEmailSignUp} className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="space-y-1">
-                      <Label>Email</Label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-4 w-4 text-nebula-400" />
-                        <Input
-                          type="email"
-                          placeholder="Enter your email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          className="pl-10"
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-1">
-                      <Label>Password</Label>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-nebula-400" />
-                        <Input
-                          type="password"
-                          placeholder="Choose a password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          className="pl-10"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="w-full nebula-gradient"
-                    disabled={loading}
-                  >
-                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Continue
-                  </Button>
-                </form>
-              </TabsContent>
-            </Tabs>
-          )}
-
-          {!showProfileForm && (
-            <>
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-nebula-800"></div>
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-nebula-400">Or continue with</span>
-                </div>
-              </div>
-
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={handleGoogleSignIn}
-                disabled={loading}
+          <div className="hidden lg:grid grid-cols-1 gap-4 w-96">
+            {dummyProfiles.map((profile, index) => (
+              <div 
+                key={index}
+                className="relative h-48 overflow-hidden rounded-xl transition-all hover:scale-105"
+                style={{
+                  backgroundImage: `url(${profile.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                }}
               >
-                <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4 mr-2" />
-                Google
-              </Button>
-            </>
-          )}
-        </Card>
-      </div>
-
-      <div className="hidden lg:flex w-1/3 bg-nebula-900/50 backdrop-blur-xl p-8">
-        <div className="grid grid-cols-1 gap-4 w-full">
-          {dummyProfiles.map((profile, index) => (
-            <Card key={index} className="p-4 glass-card">
-              <div className="flex items-center space-x-4">
-                <img
-                  src={profile.image}
-                  alt={profile.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
+                <div className="absolute inset-0 bg-gradient-to-t from-nebula-900/90 to-transparent p-4 flex flex-col justify-end">
                   <h3 className="font-medium text-nebula-100">{profile.name}</h3>
                   <p className="text-sm text-nebula-300">{profile.role}</p>
                   <p className="text-xs text-nebula-400">@ {profile.company}</p>
                 </div>
               </div>
-            </Card>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
