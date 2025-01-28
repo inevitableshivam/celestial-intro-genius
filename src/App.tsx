@@ -53,12 +53,12 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <SidebarProvider>
-          <Routes>
-            <Route path="/auth" element={<Auth />} />
-            <Route
-              element={
-                <PrivateRoute>
+        <Routes>
+          <Route path="/auth" element={<Auth />} />
+          <Route
+            element={
+              <PrivateRoute>
+                <SidebarProvider>
                   <div className="min-h-screen bg-background">
                     <Navbar />
                     <AppSidebar />
@@ -72,17 +72,17 @@ const App = () => (
                       </Routes>
                     </main>
                   </div>
-                </PrivateRoute>
-              }
-            >
-              <Route path="/" element={null} />
-              <Route path="/history" element={null} />
-              <Route path="/writer" element={null} />
-              <Route path="/resources" element={null} />
-              <Route path="/settings" element={null} />
-            </Route>
-          </Routes>
-        </SidebarProvider>
+                </SidebarProvider>
+              </PrivateRoute>
+            }
+          >
+            <Route path="/" element={null} />
+            <Route path="/history" element={null} />
+            <Route path="/writer" element={null} />
+            <Route path="/resources" element={null} />
+            <Route path="/settings" element={null} />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

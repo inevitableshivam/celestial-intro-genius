@@ -99,7 +99,11 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md p-8 space-y-6 glass-card">
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-cosmic-600/20 via-cosmic-700/20 to-cosmic-900/20" />
+        <div className="absolute inset-0 bg-grid-pattern opacity-10" />
+      </div>
+      <Card className="w-full max-w-md p-8 space-y-6 glass-card relative z-10">
         <div className="text-center">
           <img 
             src="/lovable-uploads/4b9c5868-6b83-4442-98b7-7e71d5e13838.png" 
