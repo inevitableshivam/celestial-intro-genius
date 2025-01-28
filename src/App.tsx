@@ -5,11 +5,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
-import { Navbar } from "./components/Navbar";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import History from "./pages/History";
+import Writer from "./pages/Writer";
+import Resources from "./pages/Resources";
+import Settings from "./pages/Settings";
+import { Navbar } from "./components/Navbar";
 
 const queryClient = new QueryClient();
 
@@ -50,25 +54,34 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <SidebarProvider>
-          <div className="min-h-screen bg-background">
-            <Navbar />
-            <div className="flex w-full">
-              <AppSidebar />
-              <div className="flex-1">
-                <Routes>
-                  <Route path="/auth" element={<Auth />} />
-                  <Route
-                    path="/"
-                    element={
-                      <PrivateRoute>
-                        <Index />
-                      </PrivateRoute>
-                    }
-                  />
-                </Routes>
-              </div>
-            </div>
-          </div>
+          <Routes>
+            <Route path="/auth" element={<Auth />} />
+            <Route
+              element={
+                <PrivateRoute>
+                  <div className="min-h-screen bg-background">
+                    <Navbar />
+                    <AppSidebar />
+                    <main className="pt-16 pl-[280px]">
+                      <Routes>
+                        <Route index element={<Index />} />
+                        <Route path="history" element={<History />} />
+                        <Route path="writer" element={<Writer />} />
+                        <Route path="resources" element={<Resources />} />
+                        <Route path="settings" element={<Settings />} />
+                      </Routes>
+                    </main>
+                  </div>
+                </PrivateRoute>
+              }
+            >
+              <Route path="/" element={null} />
+              <Route path="/history" element={null} />
+              <Route path="/writer" element={null} />
+              <Route path="/resources" element={null} />
+              <Route path="/settings" element={null} />
+            </Route>
+          </Routes>
         </SidebarProvider>
       </BrowserRouter>
     </TooltipProvider>

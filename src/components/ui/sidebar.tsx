@@ -296,9 +296,7 @@ const SidebarContent = React.forwardRef<
     <Comp
       ref={ref}
       className={cn(
-        "flex h-full w-[280px] flex-col gap-1 p-4",
-        "bg-[#0B0F19]",
-        "border-r border-nebula-800/20",
+        "flex h-full w-full flex-col sidebar-background",
         className
       )}
       {...props}

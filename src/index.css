@@ -79,3 +79,10 @@
 .text-gradient {
   @apply bg-gradient-to-r from-cosmic-300 to-cosmic-500 bg-clip-text text-transparent;
 }
+
+@layer components {
+  .sidebar-background {
+    background-color: rgb(17, 24, 39);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}

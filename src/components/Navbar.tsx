@@ -14,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { GearIcon } from "@radix-ui/react-icons";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -35,17 +34,21 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="sticky top-0 z-50 w-full border-b border-nebula-800/20 bg-background/80 backdrop-blur">
-      <div className="w-full flex h-16 items-center px-8 gap-8">
-        <div className="flex items-center gap-8 w-[280px] border-r border-nebula-800/20 px-6">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-nebula-800 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="w-full">
+      <div className="flex items-center justify-between gap-6 px-8 h-16">
+        <div className="flex items-center gap-6">
+          <Button variant="ghost" size="icon" className="md:hidden hover:bg-muted/50">
+          <Menu className="h-5 w-5" />
+          </Button>
           <img 
-            src="/lovable-uploads/4b9c5868-6b83-4442-98b7-7e71d5e13838.png" 
-            alt="Logo" 
-            className="h-8"
+          src="/lovable-uploads/4b9c5868-6b83-4442-98b7-7e71d5e13838.png" 
+          alt="Logo" 
+          className="h-8"
           />
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 max-w-2xl">
           <div className="relative group">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -55,11 +58,7 @@ export const Navbar = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon">
-            <GearIcon className="h-5 w-5" />
-          </Button>
-
+        <div className="flex items-center gap-6">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button 
@@ -112,7 +111,8 @@ export const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+        </div>
       </div>
-    </div>
+      </nav>
   );
 }
