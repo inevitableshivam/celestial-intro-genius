@@ -33,14 +33,27 @@ export default function Auth() {
     }
     try {
       setLoading(true);
-      const { error } = await supabase.auth.updateUser({
+      const { error: updateError } = await supabase.auth.updateUser({
         data: {
           full_name: fullName,
           position: position,
           company_name: companyName,
         },
       });
-      if (error) throw error;
+      if (updateError) throw updateError;
+
+      // Insert into profiles table
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .upsert({
+          id: tempSession?.user.id,
+          full_name: fullName,
+          position: position,
+          company_name: companyName,
+        });
+
+      if (profileError) throw profileError;
+
       navigate("/");
     } catch (error: any) {
       toast({
@@ -129,11 +142,20 @@ export default function Auth() {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN') {
-        if (!session?.user.user_metadata.full_name) {
-          setTempSession(session);
-          setShowProfileForm(true);
-        } else {
-          navigate('/');
+        // Check if user has profile data
+        if (session) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
+
+          if (!profile?.full_name) {
+            setTempSession(session);
+            setShowProfileForm(true);
+          } else {
+            navigate('/');
+          }
         }
       }
     });
