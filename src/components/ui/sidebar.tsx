@@ -876,10 +876,10 @@ export {
   SidebarInput,
   SidebarInset,
   SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
   SidebarMenuAction,
   SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
   SidebarMenuSkeleton,
   SidebarMenuSub,
   SidebarMenuSubButton,
@@ -890,6 +890,5 @@ export {
   SidebarSeparator,
   SidebarTrigger,
   SidebarBranding,
-  SidebarItem, // Added this export
   useSidebar,
 }

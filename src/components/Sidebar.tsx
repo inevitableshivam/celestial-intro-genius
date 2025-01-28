@@ -5,19 +5,13 @@ import {
   FileText,
   Settings,
 } from "lucide-react";
-import { 
-  Sidebar as SidebarComponent,
-  SidebarContent,
-  SidebarBranding,
-  SidebarSection,
-  SidebarItem
-} from "./ui/sidebar";
+import { Sidebar as SidebarComponent } from "./ui/sidebar";
 
 export function Sidebar() {
   return (
     <SidebarComponent>
-      <SidebarContent>
-        <SidebarBranding>
+      <SidebarComponent.Content>
+        <SidebarComponent.Branding>
           <div className="flex items-center gap-2">
             <div className="h-8 w-8">
               <svg
@@ -54,46 +48,46 @@ export function Sidebar() {
             </div>
             <span className="text-lg font-semibold text-white">Nebula</span>
           </div>
-        </SidebarBranding>
+        </SidebarComponent.Branding>
 
-        <SidebarSection>
-          <SidebarItem
-            href="/"
+        <SidebarComponent.Section>
+          <SidebarComponent.Item
+            href="/dashboard"
             icon={<LayoutDashboard className="h-5 w-5 stroke-[1.5]" />}
             isActive
           >
             Dashboard
-          </SidebarItem>
+          </SidebarComponent.Item>
 
-          <SidebarItem
+          <SidebarComponent.Item
             href="/history"
             icon={<History className="h-5 w-5 stroke-[1.5]" />}
           >
             History
-          </SidebarItem>
+          </SidebarComponent.Item>
 
-          <SidebarItem
-            href="/writer"
+          <SidebarComponent.Item
+            href="/ai-writer"
             icon={<Pencil className="h-5 w-5 stroke-[1.5]" />}
           >
             AI Writer
-          </SidebarItem>
+          </SidebarComponent.Item>
 
-          <SidebarItem
+          <SidebarComponent.Item
             href="/resources"
             icon={<FileText className="h-5 w-5 stroke-[1.5]" />}
           >
             Resources
-          </SidebarItem>
+          </SidebarComponent.Item>
 
-          <SidebarItem
+          <SidebarComponent.Item
             href="/settings"
             icon={<Settings className="h-5 w-5 stroke-[1.5]" />}
           >
             Settings
-          </SidebarItem>
-        </SidebarSection>
-      </SidebarContent>
+          </SidebarComponent.Item>
+        </SidebarComponent.Section>
+      </SidebarComponent.Content>
     </SidebarComponent>
   );
 }
