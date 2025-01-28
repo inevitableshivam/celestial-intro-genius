@@ -3,6 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
@@ -56,18 +58,21 @@ const App = () => (
           <Route
             element={
               <PrivateRoute>
-                <div className="min-h-screen bg-background">
-                  <Navbar />
-                  <main className="pt-16">
-                    <Routes>
-                      <Route index element={<Index />} />
-                      <Route path="history" element={<History />} />
-                      <Route path="writer" element={<Writer />} />
-                      <Route path="resources" element={<Resources />} />
-                      <Route path="settings" element={<Settings />} />
-                    </Routes>
-                  </main>
-                </div>
+                <SidebarProvider>
+                  <div className="min-h-screen bg-background">
+                    <Navbar />
+                    <AppSidebar />
+                    <main className="pt-16 pl-[280px]">
+                      <Routes>
+                        <Route index element={<Index />} />
+                        <Route path="history" element={<History />} />
+                        <Route path="writer" element={<Writer />} />
+                        <Route path="resources" element={<Resources />} />
+                        <Route path="settings" element={<Settings />} />
+                      </Routes>
+                    </main>
+                  </div>
+                </SidebarProvider>
               </PrivateRoute>
             }
           >
