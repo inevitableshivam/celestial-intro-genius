@@ -10,9 +10,7 @@ import {
   SidebarContent,
   SidebarBranding,
   SidebarSection,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton
+  SidebarItem
 } from "./ui/sidebar";
 
 export function Sidebar() {
@@ -59,52 +57,41 @@ export function Sidebar() {
         </SidebarBranding>
 
         <SidebarSection>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive>
-                <a href="/">
-                  <LayoutDashboard className="h-5 w-5 stroke-[1.5]" />
-                  <span>Dashboard</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+          <SidebarItem
+            href="/"
+            icon={<LayoutDashboard className="h-5 w-5 stroke-[1.5]" />}
+            isActive
+          >
+            Dashboard
+          </SidebarItem>
 
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="/history">
-                  <History className="h-5 w-5 stroke-[1.5]" />
-                  <span>History</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+          <SidebarItem
+            href="/history"
+            icon={<History className="h-5 w-5 stroke-[1.5]" />}
+          >
+            History
+          </SidebarItem>
 
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="/writer">
-                  <Pencil className="h-5 w-5 stroke-[1.5]" />
-                  <span>AI Writer</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+          <SidebarItem
+            href="/writer"
+            icon={<Pencil className="h-5 w-5 stroke-[1.5]" />}
+          >
+            AI Writer
+          </SidebarItem>
 
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="/resources">
-                  <FileText className="h-5 w-5 stroke-[1.5]" />
-                  <span>Resources</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+          <SidebarItem
+            href="/resources"
+            icon={<FileText className="h-5 w-5 stroke-[1.5]" />}
+          >
+            Resources
+          </SidebarItem>
 
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="/settings">
-                  <Settings className="h-5 w-5 stroke-[1.5]" />
-                  <span>Settings</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+          <SidebarItem
+            href="/settings"
+            icon={<Settings className="h-5 w-5 stroke-[1.5]" />}
+          >
+            Settings
+          </SidebarItem>
         </SidebarSection>
       </SidebarContent>
     </SidebarComponent>
