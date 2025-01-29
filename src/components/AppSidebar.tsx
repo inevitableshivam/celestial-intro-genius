@@ -43,7 +43,7 @@ export function AppSidebar() {
   const location = useLocation();
 
   return (
-    <aside className="fixed top-16 left-0 w-[280px] h-[calc(100vh-4rem)] border-r border-nebula-800/20 bg-gray-900">
+    <aside className="fixed top-16 left-0 w-[280px] h-[calc(100vh-4rem)] border-r border-nebula-800/20 bg-[#0B1120]">
       <nav className="h-full overflow-y-auto">
         <div className="space-y-2 px-3 py-4">
           {items.map((item) => {

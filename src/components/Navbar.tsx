@@ -14,6 +14,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserNav } from "./UserNav";
+import { NotificationsPopover } from "./NotificationsPopover";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -34,17 +36,13 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-nebula-800 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="w-full">
-      <div className="flex items-center justify-between gap-6 px-8 h-16">
-        <div className="flex items-center gap-6">
-          <Button variant="ghost" size="icon" className="md:hidden hover:bg-muted/50">
-          <Menu className="h-5 w-5" />
-          </Button>
-          <img 
-          src="/lovable-uploads/4b9c5868-6b83-4442-98b7-7e71d5e13838.png" 
-          alt="Logo" 
-          className="h-8"
+    <header className="fixed top-0 left-0 right-0 h-16 border-b border-nebula-800/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50">
+      <div className="flex h-full items-center justify-between px-8">
+        <div className="flex items-center gap-4">
+          <img
+            src="/lovable-uploads/4b9c5868-6b83-4442-98b7-7e71d5e13838.png"
+            alt="Nebula Logo"
+            className="h-8"
           />
         </div>
 
@@ -59,60 +57,11 @@ export const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-6">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="relative hover:bg-muted/50"
-              >
-                <Bell className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cosmic-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-cosmic-500"></span>
-                </span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Notifications</TooltipContent>
-          </Tooltip>
-
+          <NotificationsPopover />
           <div className="h-6 w-px bg-border/50" />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-9 w-9 rounded-full hover:bg-muted/50">
-                <Avatar className="h-9 w-9 transition-transform">
-                  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                  <AvatarFallback>SC</AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 mt-1" align="end" forceMount>
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">User</p>
-                  <p className="text-xs leading-none text-muted-foreground">user@example.com</p>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="hover:bg-muted/50">
-                Profile
-              </DropdownMenuItem>
-              <DropdownMenuItem className="hover:bg-muted/50">
-                Settings
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem 
-                className="text-red-600 hover:text-red-600 hover:bg-red-100/10" 
-                onClick={handleSignOut}
-              >
-                Log out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+          <UserNav />
         </div>
       </div>
-      </nav>
+    </header>
   );
 }

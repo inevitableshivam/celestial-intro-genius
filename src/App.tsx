@@ -13,6 +13,7 @@ import History from "./pages/History";
 import Writer from "./pages/Writer";
 import Resources from "./pages/Resources";
 import Settings from "./pages/Settings";
+import ProfileSetup from "./pages/ProfileSetup";
 import { Navbar } from "./components/Navbar";
 
 const queryClient = new QueryClient();
@@ -47,6 +48,26 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   return children;
 };
 
+const PrivateLayout = () => {
+  return (
+    <SidebarProvider>
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <AppSidebar />
+        <main className="pt-16 pl-[280px]">
+          <Routes>
+            <Route index element={<Index />} />
+            <Route path="history" element={<History />} />
+            <Route path="writer" element={<Writer />} />
+            <Route path="resources" element={<Resources />} />
+            <Route path="settings" element={<Settings />} />
+          </Routes>
+        </main>
+      </div>
+    </SidebarProvider>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -55,33 +76,15 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/auth" element={<Auth />} />
+          <Route path="/profile-setup" element={<ProfileSetup />} />
           <Route
+            path="/*"
             element={
               <PrivateRoute>
-                <SidebarProvider>
-                  <div className="min-h-screen bg-background">
-                    <Navbar />
-                    <AppSidebar />
-                    <main className="pt-16 pl-[280px]">
-                      <Routes>
-                        <Route index element={<Index />} />
-                        <Route path="history" element={<History />} />
-                        <Route path="writer" element={<Writer />} />
-                        <Route path="resources" element={<Resources />} />
-                        <Route path="settings" element={<Settings />} />
-                      </Routes>
-                    </main>
-                  </div>
-                </SidebarProvider>
+                <PrivateLayout />
               </PrivateRoute>
             }
-          >
-            <Route path="/" element={null} />
-            <Route path="/history" element={null} />
-            <Route path="/writer" element={null} />
-            <Route path="/resources" element={null} />
-            <Route path="/settings" element={null} />
-          </Route>
+          />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
