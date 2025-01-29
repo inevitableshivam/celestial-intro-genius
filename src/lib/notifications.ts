@@ -19,13 +19,13 @@ export async function getAllNotifications(): Promise<Notification[]> {
     throw new Error('User not authenticated');
   }
 
-  const { data: notifications, error } = await supabase
+  const { data, error } = await supabase
     .rpc('get_all_notifications', {
       p_user_id: user.user.id
     });
 
   if (error) throw error;
-  return notifications || [];
+  return data || [];
 }
 
 /**

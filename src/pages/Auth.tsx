@@ -26,22 +26,8 @@ export default function Auth() {
       });
       if (error) throw error;
       
-      // Check if user has a profile
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('No user found');
-
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single();
-
-      // If no profile, redirect to profile setup, otherwise to main app
-      if (!profile) {
-        navigate("/profile-setup");
-      } else {
-        navigate("/");
-      }
+      // On sign in, directly navigate to the app
+      navigate("/");
     } catch (error: any) {
       toast({
         title: "Error",
@@ -57,31 +43,13 @@ export default function Auth() {
     e.preventDefault();
     try {
       setLoading(true);
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
       });
       if (error) throw error;
-      
-      if (data?.user) {
-        // After signup, check if profile exists
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', data.user.id)
-          .single();
-
-        if (!profile) {
-          navigate("/profile-setup");
-        } else {
-          navigate("/");
-        }
-      }
-
-      toast({
-        title: "Success",
-        description: "Please complete your profile setup to continue.",
-      });
+      // On sign up, navigate to profile setup
+      navigate("/profile-setup");
     } catch (error: any) {
       toast({
         title: "Error",
@@ -96,10 +64,27 @@ export default function Auth() {
   const handleGoogleSignIn = async () => {
     try {
       setLoading(true);
+      // Check if the user exists in profiles table
+      const { data: existingSession } = await supabase.auth.getSession();
+      if (existingSession?.session?.user) {
+        const { data: existingProfile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', existingSession.session.user.id)
+          .single();
+
+        // If user exists, go to app, otherwise to profile setup
+        if (existingProfile) {
+          navigate("/");
+          return;
+        }
+      }
+
+      // If no session or no profile, proceed with Google sign in
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: window.location.origin + "/profile-setup",
+          redirectTo: window.location.origin + "/profile-setup", // Always redirect to profile setup for Google sign in
         },
       });
       if (error) throw error;
@@ -248,4 +233,4 @@ export default function Auth() {
       </Card>
     </div>
   );
-};
+}
