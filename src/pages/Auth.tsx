@@ -64,8 +64,24 @@ export default function Auth() {
       if (error) throw error;
       
       if (data?.user) {
-        navigate("/profile-setup");
+        // After signup, check if profile exists
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', data.user.id)
+          .single();
+
+        if (!profile) {
+          navigate("/profile-setup");
+        } else {
+          navigate("/");
+        }
       }
+
+      toast({
+        title: "Success",
+        description: "Please complete your profile setup to continue.",
+      });
     } catch (error: any) {
       toast({
         title: "Error",

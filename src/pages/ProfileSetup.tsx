@@ -1,21 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { Label } from '@/components/ui/label';
 
 const ProfileSetup = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     full_name: '',
     position: '',
     company_name: '',
   });
+
+  useEffect(() => {
+    const checkProfile = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          navigate('/auth');
+          return;
+        }
+
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+
+        if (profile) {
+          navigate('/');
+          return;
+        }
+      } catch (error) {
+        console.error('Error checking profile:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkProfile();
+  }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,14 +68,14 @@ const ProfileSetup = () => {
 
       toast({
         title: "Profile updated",
-        description: "Your profile has been successfully created.",
+        description: "Your profile has been successfully updated.",
       });
 
       navigate('/');
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message,
+        description: "There was an error updating your profile.",
         variant: "destructive",
       });
     } finally {
@@ -55,15 +83,23 @@ const ProfileSetup = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-nebula-900 via-nebula-950 to-black flex items-center justify-center">
+        <div className="text-nebula-50">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-nebula-900 via-nebula-950 to-black flex items-center justify-center p-4">
       <Card className="w-full max-w-md p-8 bg-nebula-900/50 backdrop-blur-xl border-nebula-800/20">
         <h1 className="text-2xl font-semibold text-nebula-50 mb-6">Complete Your Profile</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <Label className="text-sm font-medium text-nebula-200 block mb-2">
+            <label className="text-sm font-medium text-nebula-200 block mb-2">
               Full Name
-            </Label>
+            </label>
             <Input
               required
               placeholder="John Doe"
@@ -73,9 +109,9 @@ const ProfileSetup = () => {
             />
           </div>
           <div>
-            <Label className="text-sm font-medium text-nebula-200 block mb-2">
+            <label className="text-sm font-medium text-nebula-200 block mb-2">
               Position
-            </Label>
+            </label>
             <Input
               required
               placeholder="Software Engineer"
@@ -85,9 +121,9 @@ const ProfileSetup = () => {
             />
           </div>
           <div>
-            <Label className="text-sm font-medium text-nebula-200 block mb-2">
+            <label className="text-sm font-medium text-nebula-200 block mb-2">
               Company Name
-            </Label>
+            </label>
             <Input
               required
               placeholder="Acme Inc"
