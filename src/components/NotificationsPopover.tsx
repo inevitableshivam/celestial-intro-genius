@@ -15,7 +15,6 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
-import { formatDistanceToNow } from "date-fns";
 import { getAllNotifications, markNotificationsAsRead } from "@/lib/notifications";
 import type { Notification } from "@/lib/notifications";
 
@@ -140,11 +139,6 @@ export function NotificationsPopover() {
                           </p>
                           <p className="text-sm text-muted-foreground">
                             {notification.notification_message}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {formatDistanceToNow(new Date(notification.created_at), {
-                              addSuffix: true,
-                            })}
                           </p>
                         </div>
                       </div>
