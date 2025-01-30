@@ -11,13 +11,10 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { UserSettings } from "./UserSettings";
 
 export function UserNav() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [showSettings, setShowSettings] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,17 +61,6 @@ export function UserNav() {
               <p className="text-sm font-medium leading-none">{user?.email}</p>
             </div>
           </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <Dialog open={showSettings} onOpenChange={setShowSettings}>
-            <DialogTrigger asChild>
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                Settings
-              </DropdownMenuItem>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <UserSettings />
-            </DialogContent>
-          </Dialog>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut}>
             Sign out
