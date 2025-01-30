@@ -13,7 +13,6 @@ import History from "./pages/History";
 import Writer from "./pages/Writer";
 import Resources from "./pages/Resources";
 import Settings from "./pages/Settings";
-import ProfileSetup from "./pages/ProfileSetup";
 import { Navbar } from "./components/Navbar";
 
 const queryClient = new QueryClient();
@@ -76,7 +75,6 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/auth" element={<Auth />} />
-          <Route path="/profile-setup" element={<ProfileSetup />} />
           <Route
             path="/*"
             element={
