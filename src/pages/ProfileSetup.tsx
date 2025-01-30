@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -6,84 +6,105 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
 
-const ProfileSetup = () => {
+interface ProfileFormData {
+  full_name: string;
+  position: string;
+  company_name: string;
+}
+
+export default function ProfileSetup() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [loading, setLoading] = useState(true);
-  const [formData, setFormData] = useState({
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [formData, setFormData] = useState<ProfileFormData>({
     full_name: '',
     position: '',
     company_name: '',
   });
 
+  // Check if user is authenticated and if profile exists
   useEffect(() => {
-    const checkProfile = async () => {
+    const checkAuthAndProfile = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        
+        if (authError || !user) {
+          console.error('Auth error:', authError);
           navigate('/auth');
           return;
         }
 
-        const { data: profile } = await supabase
+        // Check if profile exists
+        const { data: profile, error: profileError } = await supabase
           .from('profiles')
-          .select('*')
+          .select('full_name')
           .eq('id', user.id)
           .single();
 
-        if (profile) {
-          navigate('/');
+        if (profileError) {
+          console.error('Profile fetch error:', profileError);
+          setIsLoading(false);
           return;
         }
+
+        // If profile exists and has a name, redirect to main app
+        if (profile?.full_name) {
+          navigate('/', { replace: true });
+          return;
+        }
+
+        setIsLoading(false);
       } catch (error) {
-        console.error('Error checking profile:', error);
-      } finally {
-        setLoading(false);
+        console.error('Error in auth check:', error);
+        setIsLoading(false);
       }
     };
 
-    checkProfile();
+    checkAuthAndProfile();
   }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setIsSaving(true);
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
       
-      if (!user) throw new Error('No user found');
+      if (authError || !user) {
+        throw new Error('Authentication error');
+      }
 
-      const { error } = await supabase
+      const { error: upsertError } = await supabase
         .from('profiles')
         .upsert({
           id: user.id,
-          full_name: formData.full_name,
-          position: formData.position,
-          company_name: formData.company_name,
+          ...formData,
           updated_at: new Date().toISOString(),
         });
 
-      if (error) throw error;
+      if (upsertError) throw upsertError;
 
       toast({
-        title: "Profile updated",
-        description: "Your profile has been successfully updated.",
+        title: "Profile Created",
+        description: "Your profile has been set up successfully.",
       });
 
-      navigate('/');
-    } catch (error: any) {
+      // Use replace to prevent going back to profile setup
+      navigate('/', { replace: true });
+    } catch (error) {
+      console.error('Profile setup error:', error);
       toast({
         title: "Error",
-        description: "There was an error updating your profile.",
+        description: "Failed to set up profile. Please try again.",
         variant: "destructive",
       });
     } finally {
-      setLoading(false);
+      setIsSaving(false);
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-nebula-900 via-nebula-950 to-black flex items-center justify-center">
         <div className="text-nebula-50">Loading...</div>
@@ -97,10 +118,11 @@ const ProfileSetup = () => {
         <h1 className="text-2xl font-semibold text-nebula-50 mb-6">Complete Your Profile</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="text-sm font-medium text-nebula-200 block mb-2">
+            <label htmlFor="full_name" className="text-sm font-medium text-nebula-200 block mb-2">
               Full Name
             </label>
             <Input
+              id="full_name"
               required
               placeholder="John Doe"
               value={formData.full_name}
@@ -109,10 +131,11 @@ const ProfileSetup = () => {
             />
           </div>
           <div>
-            <label className="text-sm font-medium text-nebula-200 block mb-2">
+            <label htmlFor="position" className="text-sm font-medium text-nebula-200 block mb-2">
               Position
             </label>
             <Input
+              id="position"
               required
               placeholder="Software Engineer"
               value={formData.position}
@@ -121,10 +144,11 @@ const ProfileSetup = () => {
             />
           </div>
           <div>
-            <label className="text-sm font-medium text-nebula-200 block mb-2">
+            <label htmlFor="company_name" className="text-sm font-medium text-nebula-200 block mb-2">
               Company Name
             </label>
             <Input
+              id="company_name"
               required
               placeholder="Acme Inc"
               value={formData.company_name}
@@ -135,14 +159,12 @@ const ProfileSetup = () => {
           <Button
             type="submit"
             className="w-full bg-nebula-600 hover:bg-nebula-500"
-            disabled={loading}
+            disabled={isSaving}
           >
-            {loading ? "Saving..." : "Complete Setup"}
+            {isSaving ? "Setting up..." : "Complete Setup"}
           </Button>
         </form>
       </Card>
     </div>
   );
-};
-
-export default ProfileSetup;
+}

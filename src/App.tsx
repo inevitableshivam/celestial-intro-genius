@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import History from "./pages/History";
 import Writer from "./pages/Writer";
 import Resources from "./pages/Resources";
 import Settings from "./pages/Settings";
+import ProfileSetup from "./pages/ProfileSetup";
 import { Navbar } from "./components/Navbar";
 
 const queryClient = new QueryClient();
@@ -20,28 +21,62 @@ const queryClient = new QueryClient();
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [hasProfile, setHasProfile] = useState<boolean | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setLoading(false);
-    });
+    const checkAuthAndProfile = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        setSession(session);
+
+        if (session?.user) {
+          // Check if profile exists
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('full_name')
+            .eq('id', session.user.id)
+            .single();
+
+          setHasProfile(!!profile?.full_name);
+        }
+      } catch (error) {
+        console.error('Auth check error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuthAndProfile();
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('full_name')
+          .eq('id', session.user.id)
+          .single();
+
+        setHasProfile(!!profile?.full_name);
+      }
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [navigate]);
 
   if (loading) {
     return null;
   }
 
   if (!session) {
-    return <Navigate to="/auth" />;
+    return <Navigate to="/auth" replace />;
+  }
+
+  if (session && !hasProfile) {
+    return <Navigate to="/profile-setup" replace />;
   }
 
   return children;
@@ -75,6 +110,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/auth" element={<Auth />} />
+          <Route path="/profile-setup" element={<ProfileSetup />} />
           <Route
             path="/*"
             element={
