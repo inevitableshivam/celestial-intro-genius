@@ -85,16 +85,22 @@ export function AppSidebar() {
             const isActive = location.pathname === item.path;
             return (
               <Button
-                key={item.path}
-                variant={isActive ? "secondary" : "ghost"}
-                className={cn(
-                  "w-full justify-start gap-2",
-                  isActive && "bg-nebula-900/50"
-                )}
+                key={item.title}
+                variant="ghost"
                 onClick={() => navigate(item.path)}
+                className={cn(
+                  "w-full justify-start gap-8 px-5 py-3 text-lg rounded-md",
+                  "hover:bg-white/5 hover:text-white",
+                  "transition-colors duration-200",
+                  "relative font-medium",
+                  {
+                    "bg-white/5 text-white": isActive,
+                    "text-muted-foreground": !isActive,
+                  }
+                )}
               >
-                <item.icon className="h-4 w-4" />
-                {item.title}
+                <item.icon className="h-[24px] w-[24px]" />
+                <span>{item.title}</span>
               </Button>
             );
           })}

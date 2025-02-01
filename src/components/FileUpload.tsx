@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 
-export const FileUpload = () => {
+export const FileUpload = ({ onUpload }: { onUpload: (file: File) => void }) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -21,11 +21,25 @@ export const FileUpload = () => {
     setIsDragging(false);
     
     const droppedFile = e.dataTransfer.files[0];
-    if (droppedFile?.type === "text/csv") {
-      setFile(droppedFile);
+    handleFile(droppedFile);
+  };
+
+  const handleFile = (file: File | undefined) => {
+    if (!file) return;
+    
+    if (file.type === "text/csv" || file.name.endsWith('.csv')) {
+      if (file.size > 10 * 1024 * 1024) {
+        toast({
+          variant: "destructive",
+          title: "File too large",
+          description: "Maximum file size is 10MB",
+        });
+        return;
+      }
+      onUpload(file);
       toast({
         title: "File uploaded successfully",
-        description: `${droppedFile.name} has been uploaded.`,
+        description: `${file.name} has been uploaded.`,
       });
     } else {
       toast({
@@ -38,19 +52,14 @@ export const FileUpload = () => {
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
-    if (selectedFile?.type === "text/csv") {
-      setFile(selectedFile);
-      toast({
-        title: "File uploaded successfully",
-        description: `${selectedFile.name} has been uploaded.`,
-      });
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Invalid file type",
-        description: "Please upload a CSV file.",
-      });
+    handleFile(selectedFile);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';  // Reset the input
     }
+  };
+
+  const handleBrowseClick = () => {
+    fileInputRef.current?.click();
   };
 
   return (
@@ -71,17 +80,20 @@ export const FileUpload = () => {
           Supported format: CSV
         </p>
         <input
+          ref={fileInputRef}
           type="file"
           accept=".csv"
           onChange={handleFileInput}
           className="hidden"
           id="file-upload"
         />
-        <label htmlFor="file-upload">
-          <Button variant="outline" className="mt-2">
-            Browse Files
-          </Button>
-        </label>
+        <Button 
+          variant="outline" 
+          className="mt-2 hover:bg-nebula-800/50"
+          onClick={handleBrowseClick}
+        >
+          Browse Files
+        </Button>
       </div>
     </div>
   );
