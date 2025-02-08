@@ -1,25 +1,17 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import DataGrid from 'react-data-grid';
 import 'react-data-grid/lib/styles.css';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import Papa from 'papaparse';
 
 // Custom CSS for the data grid
 import './CsvViewer.css';
 
-interface CsvData {
-  headers: string[];
-  rows: any[];
-}
-
 interface CsvViewerProps {
-  file: File;
+  data: any[];
   columnMapping: {
     websiteColumn: string;
     linkedinColumn: string;
   } | null;
-  onColumnsLoad: (headers: string[], data: any[]) => void;
-  currentData: any[];
 }
 
 const ADDITIONAL_COLUMNS = [
@@ -55,53 +47,12 @@ const ADDITIONAL_COLUMNS = [
   },
 ];
 
-export const CsvViewer = ({ 
-  file, 
-  columnMapping, 
-  onColumnsLoad, 
-  currentData 
-}: CsvViewerProps) => {
-  // Parse initial CSV data
-  useEffect(() => {
-    console.log('Parsing initial CSV file');
-    Papa.parse(file, {
-      complete: (results) => {
-        if (results.data.length > 0) {
-          const headers = results.data[0] as string[];
-          const rows = results.data.slice(1).map((row: any) => {
-            const rowData: any = {};
-            headers.forEach((header, index) => {
-              rowData[header] = row[index];
-            });
-            return rowData;
-          }).filter(row => Object.values(row).some(value => value !== ''));
-
-          console.log('Initial parsed rows:', rows.length);
-          onColumnsLoad(headers, rows);
-        }
-      },
-      header: false,
-      error: (error) => {
-        console.error('CSV parsing error:', error);
-      }
-    });
-  }, [file, onColumnsLoad]);
-
-  // Log when currentData changes
-  useEffect(() => {
-    console.log('CsvViewer received new data:', currentData.length);
-    console.log('Sample of current data:', currentData.slice(0, 2));
-  }, [currentData]);
-
+export const CsvViewer = ({ data, columnMapping }: CsvViewerProps) => {
   // Create columns based on current data
   const columns = useMemo(() => {
-    if (!currentData.length) {
-      console.log('No current data available');
-      return [];
-    }
+    if (!data.length) return [];
 
-    console.log('Creating columns from data');
-    const headers = Object.keys(currentData[0]);
+    const headers = Object.keys(data[0]);
     const baseColumns = headers.map(header => ({
       key: header,
       name: header,
@@ -119,13 +70,16 @@ export const CsvViewer = ({
       ),
     }));
 
-    if (!columnMapping) return baseColumns;
-    return [...baseColumns, ...ADDITIONAL_COLUMNS];
-  }, [currentData, columnMapping]);
+    return columnMapping ? [...baseColumns, ...ADDITIONAL_COLUMNS] : baseColumns;
+  }, [data, columnMapping]);
 
   // Render empty state if no data
-  if (!currentData.length) {
-    return <div>No data available</div>;
+  if (!data.length) {
+    return (
+      <div className="flex items-center justify-center h-[500px] text-nebula-400">
+        No data available
+      </div>
+    );
   }
 
   return (
@@ -133,7 +87,7 @@ export const CsvViewer = ({
       <ScrollArea className="h-[500px] w-full rounded-md border border-nebula-700">
         <DataGrid
           columns={columns}
-          rows={currentData}
+          rows={data}
           className="rdg-dark csv-grid"
           rowClass={() => 'csv-row'}
           headerRowHeight={45}
