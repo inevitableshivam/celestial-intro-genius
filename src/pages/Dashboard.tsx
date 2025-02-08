@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FileUpload } from '@/components/FileUpload';
 import { CsvViewer } from '@/components/CsvViewer';
 import { ColumnMapper } from '@/components/ColumnMapper';
@@ -9,6 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import Papa from 'papaparse';
 import { useToast } from '@/components/ui/use-toast';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
 type Step = 'upload' | 'map' | 'clean' | 'service' | 'process';
 type JobStatus = 'pending' | 'processing' | 'completed' | 'failed';
@@ -26,6 +27,23 @@ const Dashboard = () => {
   const [uploadId, setUploadId] = useState<string>('');
   const [tableName, setTableName] = useState<string>('');
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error || !session) {
+        toast({
+          variant: "destructive",
+          title: "Authentication required",
+          description: "Please sign in to access this feature"
+        });
+        navigate('/auth');
+      }
+    };
+
+    checkAuth();
+  }, [navigate, toast]);
 
   const createCsvTable = async (headers: string[], fileName: string) => {
     try {
@@ -43,7 +61,7 @@ const Dashboard = () => {
           filename: fileName,
           table_name: newTableName,
           status: 'pending',
-          user_id: user.id  // Set the user_id here
+          user_id: user.id
         })
         .select()
         .single();
@@ -123,7 +141,7 @@ const Dashboard = () => {
 
       // Insert the cleaned data into the dynamic table
       const { error: insertError } = await supabase
-        .from(tableName as any)
+        .from(tableName)
         .insert(
           cleanedData.map(row => ({
             ...row,
@@ -132,7 +150,7 @@ const Dashboard = () => {
             v1: null,
             v2: null,
             v3: null,
-            user_id: user.id // Set the user_id here too if needed for the dynamic table
+            user_id: user.id
           }))
         );
 
@@ -143,7 +161,7 @@ const Dashboard = () => {
         upload_id: uploadId,
         row_id: row.row_id || uuidv4(),
         status: 'pending' as JobStatus,
-        user_id: user.id // Set the user_id here
+        user_id: user.id
       }));
 
       const { error: jobsError } = await supabase
@@ -157,7 +175,7 @@ const Dashboard = () => {
         .from('csv_uploads')
         .update({ status: 'processing' })
         .eq('upload_id', uploadId)
-        .eq('user_id', user.id); // Add user_id check for update
+        .eq('user_id', user.id);
 
       if (statusError) throw statusError;
 
