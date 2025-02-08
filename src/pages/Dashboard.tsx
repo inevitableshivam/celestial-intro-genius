@@ -1,10 +1,14 @@
+
 import { useState } from 'react';
 import { FileUpload } from '@/components/FileUpload';
 import { CsvViewer } from '@/components/CsvViewer';
 import { ColumnMapper } from '@/components/ColumnMapper';
 import { DataCleaner } from '@/components/DataCleaner';
 import { ServiceDetails } from '@/components/ServiceDetails';
+import { supabase } from '@/integrations/supabase/client';
 import Papa from 'papaparse';
+import { useToast } from '@/components/ui/use-toast';
+import { v4 as uuidv4 } from 'uuid';
 
 type Step = 'upload' | 'map' | 'clean' | 'service' | 'process';
 
@@ -18,12 +22,57 @@ const Dashboard = () => {
     websiteColumn: string;
     linkedinColumn: string;
   } | null>(null);
+  const [uploadId, setUploadId] = useState<string>('');
+  const [tableName, setTableName] = useState<string>('');
+  const { toast } = useToast();
 
-  const handleFileUpload = (file: File) => {
+  const createCsvTable = async (headers: string[], fileName: string) => {
+    try {
+      const tableId = uuidv4();
+      const newTableName = `csv_data_${tableId}`;
+      setTableName(newTableName);
+
+      // First create the upload record
+      const { data: uploadData, error: uploadError } = await supabase
+        .from('csv_uploads')
+        .insert({
+          filename: fileName,
+          table_name: newTableName,
+          status: 'pending'
+        })
+        .select()
+        .single();
+
+      if (uploadError) throw uploadError;
+      
+      setUploadId(uploadData.upload_id);
+
+      // Call RPC to create the dynamic table
+      const { error: rpcError } = await supabase
+        .rpc('create_csv_data_table', {
+          p_table_name: newTableName,
+          p_columns: headers
+        });
+
+      if (rpcError) throw rpcError;
+
+      return newTableName;
+    } catch (error) {
+      console.error('Error creating CSV table:', error);
+      toast({
+        variant: "destructive",
+        title: "Error creating table",
+        description: "Failed to initialize data storage"
+      });
+      throw error;
+    }
+  };
+
+  const handleFileUpload = async (file: File) => {
     setUploadedFile(file);
     
     Papa.parse(file, {
-      complete: (results) => {
+      complete: async (results) => {
         if (results.data.length > 0) {
           const headers = results.data[0] as string[];
           const rows = results.data.slice(1).map((row: any) => {
@@ -34,18 +83,27 @@ const Dashboard = () => {
             return rowData;
           }).filter(row => Object.values(row).some(value => value !== ''));
 
-          setAvailableColumns(headers);
-          setOriginalData(rows);
-          setDisplayData(rows);
+          try {
+            await createCsvTable(headers, file.name);
+            setAvailableColumns(headers);
+            setOriginalData(rows);
+            setDisplayData(rows);
+            setCurrentStep('map');
+          } catch (error) {
+            console.error('Error handling file upload:', error);
+          }
         }
       },
       header: false,
       error: (error) => {
         console.error('CSV parsing error:', error);
+        toast({
+          variant: "destructive",
+          title: "Error parsing CSV",
+          description: "Failed to parse the uploaded file"
+        });
       }
     });
-    
-    setCurrentStep('map');
   };
 
   const handleColumnMapping = (mapping: { websiteColumn: string; linkedinColumn: string }) => {
@@ -53,8 +111,58 @@ const Dashboard = () => {
     setCurrentStep('clean');
   };
 
-  const handleDataCleaned = (cleanedData: any[]) => {
-    setDisplayData(cleanedData);
+  const handleDataCleaned = async (cleanedData: any[]) => {
+    try {
+      // Insert the cleaned data into the dynamic table
+      const { error: insertError } = await supabase
+        .from(tableName)
+        .insert(
+          cleanedData.map(row => ({
+            ...row,
+            linkedin_data: null,
+            website_data: null,
+            v1: null,
+            v2: null,
+            v3: null
+          }))
+        );
+
+      if (insertError) throw insertError;
+
+      // Create processing jobs for each row
+      const processingJobs = cleanedData.map(row => ({
+        upload_id: uploadId,
+        row_id: row.row_id || uuidv4(),
+        status: 'pending'
+      }));
+
+      const { error: jobsError } = await supabase
+        .from('csv_processing_jobs')
+        .insert(processingJobs);
+
+      if (jobsError) throw jobsError;
+
+      // Update upload status
+      const { error: statusError } = await supabase
+        .from('csv_uploads')
+        .update({ status: 'processing' })
+        .eq('upload_id', uploadId);
+
+      if (statusError) throw statusError;
+
+      setDisplayData(cleanedData);
+      toast({
+        title: "Data saved successfully",
+        description: `${cleanedData.length} rows have been processed and saved`
+      });
+    } catch (error) {
+      console.error('Error saving cleaned data:', error);
+      toast({
+        variant: "destructive",
+        title: "Error saving data",
+        description: "Failed to save cleaned data"
+      });
+    }
   };
 
   const handleNextStep = () => {
@@ -120,11 +228,6 @@ const Dashboard = () => {
       </div>
     </div>
   );
-};
-
-const getStepNumber = (step: Step): number => {
-  const steps: Step[] = ['upload', 'map', 'clean', 'service', 'process'];
-  return steps.indexOf(step) + 1;
 };
 
 export default Dashboard;
