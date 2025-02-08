@@ -11,6 +11,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { v4 as uuidv4 } from 'uuid';
 
 type Step = 'upload' | 'map' | 'clean' | 'service' | 'process';
+type JobStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
 const Dashboard = () => {
   const [currentStep, setCurrentStep] = useState<Step>('upload');
@@ -114,8 +115,9 @@ const Dashboard = () => {
   const handleDataCleaned = async (cleanedData: any[]) => {
     try {
       // Insert the cleaned data into the dynamic table
+      // Using explicit type assertion since the table is dynamic
       const { error: insertError } = await supabase
-        .from(tableName)
+        .from(tableName as any)
         .insert(
           cleanedData.map(row => ({
             ...row,
@@ -133,7 +135,7 @@ const Dashboard = () => {
       const processingJobs = cleanedData.map(row => ({
         upload_id: uploadId,
         row_id: row.row_id || uuidv4(),
-        status: 'pending'
+        status: 'pending' as JobStatus
       }));
 
       const { error: jobsError } = await supabase

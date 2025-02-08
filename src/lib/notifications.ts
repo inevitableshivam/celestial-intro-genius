@@ -1,3 +1,4 @@
+
 import { supabase } from '@/integrations/supabase/client';
 
 export interface Notification {
@@ -37,7 +38,7 @@ export async function getUnreadCount(): Promise<number> {
     throw new Error('User not authenticated');
   }
 
-  const { data: notifications } = await getAllNotifications();
+  const notifications = await getAllNotifications();
   return notifications?.filter(n => !n.is_read).length || 0;
 }
 
