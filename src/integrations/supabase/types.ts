@@ -9,6 +9,74 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      csv_processing_jobs: {
+        Row: {
+          created_at: string | null
+          error_log: string | null
+          id: string
+          retry_count: number | null
+          row_id: string
+          status: Database["public"]["Enums"]["job_status"] | null
+          updated_at: string | null
+          upload_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          error_log?: string | null
+          id?: string
+          retry_count?: number | null
+          row_id: string
+          status?: Database["public"]["Enums"]["job_status"] | null
+          updated_at?: string | null
+          upload_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          error_log?: string | null
+          id?: string
+          retry_count?: number | null
+          row_id?: string
+          status?: Database["public"]["Enums"]["job_status"] | null
+          updated_at?: string | null
+          upload_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "csv_processing_jobs_upload_id_fkey"
+            columns: ["upload_id"]
+            isOneToOne: false
+            referencedRelation: "csv_uploads"
+            referencedColumns: ["upload_id"]
+          },
+        ]
+      }
+      csv_uploads: {
+        Row: {
+          filename: string
+          status: string | null
+          table_name: string
+          upload_id: string
+          upload_timestamp: string | null
+          user_id: string | null
+        }
+        Insert: {
+          filename: string
+          status?: string | null
+          table_name: string
+          upload_id?: string
+          upload_timestamp?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          filename?: string
+          status?: string | null
+          table_name?: string
+          upload_id?: string
+          upload_timestamp?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       default_notifications: {
         Row: {
           avatar_picture_link: string | null
@@ -159,6 +227,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_csv_data_table: {
+        Args: {
+          p_table_name: string
+          p_columns: string[]
+        }
+        Returns: undefined
+      }
       create_notification_for_user: {
         Args: {
           p_user_id: string
@@ -176,6 +251,12 @@ export type Database = {
           p_notification_message: string
         }
         Returns: string
+      }
+      delete_csv_data_table: {
+        Args: {
+          p_table_name: string
+        }
+        Returns: undefined
       }
       get_all_notifications: {
         Args: {
@@ -227,19 +308,7 @@ export type Database = {
       }
     }
     Enums: {
-      job_status:
-        | "uploaded"
-        | "cleaning"
-        | "cleaned"
-        | "scraping_linkedin"
-        | "linkedin_complete"
-        | "scraping_websites"
-        | "websites_complete"
-        | "generating_ai_basic"
-        | "generating_ai_standard"
-        | "generating_ai_premium"
-        | "completed"
-        | "failed"
+      job_status: "pending" | "processing" | "completed" | "failed"
     }
     CompositeTypes: {
       [_ in never]: never
