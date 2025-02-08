@@ -29,17 +29,21 @@ const Dashboard = () => {
 
   const createCsvTable = async (headers: string[], fileName: string) => {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
+
       const tableId = uuidv4();
       const newTableName = `csv_data_${tableId}`;
       setTableName(newTableName);
 
-      // First create the upload record
+      // First create the upload record with user_id
       const { data: uploadData, error: uploadError } = await supabase
         .from('csv_uploads')
         .insert({
           filename: fileName,
           table_name: newTableName,
-          status: 'pending'
+          status: 'pending',
+          user_id: user.id  // Set the user_id here
         })
         .select()
         .single();
@@ -114,8 +118,10 @@ const Dashboard = () => {
 
   const handleDataCleaned = async (cleanedData: any[]) => {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
+
       // Insert the cleaned data into the dynamic table
-      // Using explicit type assertion since the table is dynamic
       const { error: insertError } = await supabase
         .from(tableName as any)
         .insert(
@@ -125,7 +131,8 @@ const Dashboard = () => {
             website_data: null,
             v1: null,
             v2: null,
-            v3: null
+            v3: null,
+            user_id: user.id // Set the user_id here too if needed for the dynamic table
           }))
         );
 
@@ -135,7 +142,8 @@ const Dashboard = () => {
       const processingJobs = cleanedData.map(row => ({
         upload_id: uploadId,
         row_id: row.row_id || uuidv4(),
-        status: 'pending' as JobStatus
+        status: 'pending' as JobStatus,
+        user_id: user.id // Set the user_id here
       }));
 
       const { error: jobsError } = await supabase
@@ -148,7 +156,8 @@ const Dashboard = () => {
       const { error: statusError } = await supabase
         .from('csv_uploads')
         .update({ status: 'processing' })
-        .eq('upload_id', uploadId);
+        .eq('upload_id', uploadId)
+        .eq('user_id', user.id); // Add user_id check for update
 
       if (statusError) throw statusError;
 
