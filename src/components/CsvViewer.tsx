@@ -83,23 +83,43 @@ export const CsvViewer = ({ data, columnMapping }: CsvViewerProps) => {
   }
 
   return (
-    <div className="csv-viewer-container">
-      <ScrollArea className="h-[500px] w-full rounded-md border border-nebula-700">
-        <DataGrid
-          columns={columns}
-          rows={data}
-          className="rdg-dark csv-grid"
-          rowClass={() => 'csv-row'}
-          headerRowHeight={45}
-          rowHeight={40}
-          style={{
-            height: '100%',
-            width: '100%',
-            backgroundColor: 'rgb(15, 23, 42)',
-            color: 'rgb(226, 232, 240)',
-          }}
-        />
-      </ScrollArea>
+    <div className="csv-viewer-container" style={{ 
+      width: '100%', 
+      height: '500px',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <div style={{ 
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        overflowX: 'auto',
+        overflowY: 'auto',
+        msOverflowStyle: 'none',  // Hide scrollbar in IE/Edge
+        scrollbarWidth: 'none',   // Hide scrollbar in Firefox
+      }}>
+        <div style={{ 
+          minWidth: '100%', 
+          width: 'max-content',
+          height: '100%'
+        }}>
+          <DataGrid
+            columns={columns}
+            rows={data}
+            className="rdg-dark csv-grid"
+            rowClass={() => 'csv-row'}
+            headerRowHeight={45}
+            rowHeight={40}
+            style={{
+              height: '100%',
+              backgroundColor: 'rgb(15, 23, 42)',
+              color: 'rgb(226, 232, 240)',
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };
