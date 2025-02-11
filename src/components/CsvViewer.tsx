@@ -83,28 +83,9 @@ export const CsvViewer = ({ data, columnMapping }: CsvViewerProps) => {
   }
 
   return (
-    <div className="csv-viewer-container" style={{ 
-      width: '100%', 
-      height: '500px',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      <div style={{ 
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        overflowX: 'auto',
-        overflowY: 'auto',
-        msOverflowStyle: 'none',  // Hide scrollbar in IE/Edge
-        scrollbarWidth: 'none',   // Hide scrollbar in Firefox
-      }}>
-        <div style={{ 
-          minWidth: '100%', 
-          width: 'max-content',
-          height: '100%'
-        }}>
+    <div className="csv-viewer-container" style={{ width: '100%', overflow: 'auto' }}>
+      <ScrollArea className="h-[500px] w-full rounded-md border border-nebula-700" style={{ overflow: 'auto' }}>
+        <div style={{ minWidth: '100%', width: 'max-content' }}>
           <DataGrid
             columns={columns}
             rows={data}
@@ -114,12 +95,13 @@ export const CsvViewer = ({ data, columnMapping }: CsvViewerProps) => {
             rowHeight={40}
             style={{
               height: '100%',
+              width: '100%',
               backgroundColor: 'rgb(15, 23, 42)',
               color: 'rgb(226, 232, 240)',
             }}
           />
         </div>
-      </div>
+      </ScrollArea>
     </div>
   );
 };
