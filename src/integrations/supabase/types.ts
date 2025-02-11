@@ -240,6 +240,45 @@ export type Database = {
         }
         Relationships: []
       }
+      "csv_data_e7071f03-cfbc-4283-8a4a-f953851e4028": {
+        Row: {
+          id: string
+          link: string | null
+          linkedin_scrape_data: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          url: string | null
+          user_id: string
+          website_scrape_data: string | null
+        }
+        Insert: {
+          id?: string
+          link?: string | null
+          linkedin_scrape_data?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          url?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+        }
+        Update: {
+          id?: string
+          link?: string | null
+          linkedin_scrape_data?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          url?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+        }
+        Relationships: []
+      }
       "csv_data_ee7e9c23-78ab-4fe3-88cf-58942d925242": {
         Row: {
           id: string

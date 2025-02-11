@@ -136,15 +136,10 @@ const Dashboard = () => {
             return rowData;
           }).filter(row => Object.values(row).some(value => value !== ''));
 
-          try {
-            await createCsvTable(headers, file.name);
-            setAvailableColumns(headers);
-            setOriginalData(rows);
-            setDisplayData(rows);
-            setCurrentStep('map');
-          } catch (error) {
-            console.error('Error handling file upload:', error);
-          }
+          setAvailableColumns(headers);
+          setOriginalData(rows);
+          setDisplayData(rows);
+          setCurrentStep('map');
         }
       },
       header: false,
@@ -169,7 +164,7 @@ const Dashboard = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      // Create table and save data
+      // Create table and save data with all necessary arguments
       const { tableName: newTableName, uploadId: newUploadId } = await createCsvTable(
         Object.keys(cleanedData[0]),
         uploadedFile?.name || 'data.csv',
