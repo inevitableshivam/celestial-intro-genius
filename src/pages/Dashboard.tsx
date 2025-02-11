@@ -89,17 +89,31 @@ const Dashboard = () => {
       const newUploadId = uploadData.upload_id;
       setUploadId(newUploadId);
 
-      // Prepare the data for insertion by generating UUIDs for each row
-      const dataWithIds = cleanedData.map(row => ({
-        ...row,
-        linkedin_scrape_data: null,
-        website_scrape_data: null,
-        personalized_line_v1: null,
-        personalized_line_v2: null,
-        personalized_line_v3: null,
-        user_id: user.id,
-        id: uuidv4()
-      }));
+      // Prepare the data for insertion with renamed columns
+      const dataWithIds = cleanedData.map(row => {
+        const newRow = { ...row };
+        // Rename the selected columns
+        if (columnMapping) {
+          if (columnMapping.websiteColumn) {
+            newRow.website_url = row[columnMapping.websiteColumn];
+            delete newRow[columnMapping.websiteColumn];
+          }
+          if (columnMapping.linkedinColumn) {
+            newRow.linkedin_url = row[columnMapping.linkedinColumn];
+            delete newRow[columnMapping.linkedinColumn];
+          }
+        }
+        return {
+          ...newRow,
+          linkedin_scrape_data: null,
+          website_scrape_data: null,
+          personalized_line_v1: null,
+          personalized_line_v2: null,
+          personalized_line_v3: null,
+          user_id: user.id,
+          id: uuidv4()
+        };
+      });
 
       // Insert the data using RPC function
       const { error: insertError } = await supabase.rpc('insert_csv_data', {

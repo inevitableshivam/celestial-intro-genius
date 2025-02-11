@@ -1,7 +1,8 @@
+
 import { useMemo } from 'react';
 import DataGrid from 'react-data-grid';
 import 'react-data-grid/lib/styles.css';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 // Custom CSS for the data grid
 import './CsvViewer.css';
@@ -57,6 +58,7 @@ export const CsvViewer = ({ data, columnMapping }: CsvViewerProps) => {
       key: header,
       name: header,
       width: 'auto',
+      minWidth: 150,
       resizable: true,
       headerRenderer: (props: any) => (
         <div className="rdg-header-cell">
@@ -83,9 +85,9 @@ export const CsvViewer = ({ data, columnMapping }: CsvViewerProps) => {
   }
 
   return (
-    <div className="csv-viewer-container" style={{ width: '100%', overflow: 'auto' }}>
-      <ScrollArea className="h-[500px] w-full rounded-md border border-nebula-700" style={{ overflow: 'auto' }}>
-        <div style={{ minWidth: '100%', width: 'max-content' }}>
+    <div className="csv-viewer-container">
+      <ScrollArea className="h-[500px] w-full rounded-md border border-nebula-700">
+        <div className="min-w-max">
           <DataGrid
             columns={columns}
             rows={data}
@@ -95,12 +97,12 @@ export const CsvViewer = ({ data, columnMapping }: CsvViewerProps) => {
             rowHeight={40}
             style={{
               height: '100%',
-              width: '100%',
               backgroundColor: 'rgb(15, 23, 42)',
               color: 'rgb(226, 232, 240)',
             }}
           />
         </div>
+        <ScrollBar orientation="horizontal" />
       </ScrollArea>
     </div>
   );
