@@ -9,45 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      "csv_data_080bcf17-83c9-43a7-a09e-983c79db5309": {
-        Row: {
-          id: string
-          linkedin_scrape_data: string | null
-          linkedin_url: string | null
-          name: string | null
-          personalized_line_v1: string | null
-          personalized_line_v2: string | null
-          personalized_line_v3: string | null
-          user_id: string
-          website_scrape_data: string | null
-          website_url: string | null
-        }
-        Insert: {
-          id?: string
-          linkedin_scrape_data?: string | null
-          linkedin_url?: string | null
-          name?: string | null
-          personalized_line_v1?: string | null
-          personalized_line_v2?: string | null
-          personalized_line_v3?: string | null
-          user_id: string
-          website_scrape_data?: string | null
-          website_url?: string | null
-        }
-        Update: {
-          id?: string
-          linkedin_scrape_data?: string | null
-          linkedin_url?: string | null
-          name?: string | null
-          personalized_line_v1?: string | null
-          personalized_line_v2?: string | null
-          personalized_line_v3?: string | null
-          user_id?: string
-          website_scrape_data?: string | null
-          website_url?: string | null
-        }
-        Relationships: []
-      }
       "csv_data_45f5109b-2ccb-4050-8a3a-749c228fc545": {
         Row: {
           id: string
@@ -742,36 +703,6 @@ export type Database = {
         }
         Relationships: []
       }
-      resources: {
-        Row: {
-          bullet_points: string
-          content: string
-          created_at: string | null
-          id: string
-          image_url: string
-          title: string
-          updated_at: string | null
-        }
-        Insert: {
-          bullet_points: string
-          content: string
-          created_at?: string | null
-          id?: string
-          image_url: string
-          title: string
-          updated_at?: string | null
-        }
-        Update: {
-          bullet_points?: string
-          content?: string
-          created_at?: string | null
-          id?: string
-          image_url?: string
-          title?: string
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
       user_notifications: {
         Row: {
           created_at: string | null
@@ -833,18 +764,6 @@ export type Database = {
           p_notification_message: string
         }
         Returns: string
-      }
-      debug_resources_query: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          id: string
-          title: string
-          image_url: string
-          bullet_points: string
-          content: string
-          created_at: string
-          updated_at: string
-        }[]
       }
       delete_csv_data_table: {
         Args: {
