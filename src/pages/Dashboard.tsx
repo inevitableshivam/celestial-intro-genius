@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { FileUpload } from '@/components/FileUpload';
 import { CsvViewer } from '@/components/CsvViewer';
@@ -44,7 +45,7 @@ const Dashboard = () => {
     checkAuth();
   }, [navigate, toast]);
 
-  const createCsvTable = async (headers: string[], fileName: string) => {
+  const createCsvTable = async (headers: string[], fileName: string, cleanedData: any[]) => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
@@ -53,7 +54,26 @@ const Dashboard = () => {
       const newTableName = `csv_data_${tableId}`;
       setTableName(newTableName);
 
-      // First create the upload record with user_id
+      // Add our additional columns to the headers
+      const allHeaders = [
+        ...headers,
+        'linkedin_scrape_data',
+        'website_scrape_data',
+        'personalized_line_v1',
+        'personalized_line_v2',
+        'personalized_line_v3'
+      ];
+
+      // Create the table with RPC function
+      const { error: rpcError } = await supabase
+        .rpc('create_csv_data_table', {
+          p_table_name: newTableName,
+          p_columns: allHeaders
+        } as never);
+
+      if (rpcError) throw rpcError;
+
+      // Create the upload record
       const { data: uploadData, error: uploadError } = await supabase
         .from('csv_uploads')
         .insert({
@@ -66,19 +86,30 @@ const Dashboard = () => {
         .single();
 
       if (uploadError) throw uploadError;
-      
-      setUploadId(uploadData.upload_id);
+      const newUploadId = uploadData.upload_id;
+      setUploadId(newUploadId);
 
-      // Call RPC to create the dynamic table
-      const { error: rpcError } = await supabase
-        .rpc('create_csv_data_table', {
-          p_table_name: newTableName,
-          p_columns: headers
-        });
+      // Prepare the data for insertion by generating UUIDs for each row
+      const dataWithIds = cleanedData.map(row => ({
+        ...row,
+        linkedin_scrape_data: null,
+        website_scrape_data: null,
+        personalized_line_v1: null,
+        personalized_line_v2: null,
+        personalized_line_v3: null,
+        user_id: user.id,
+        id: uuidv4()
+      }));
 
-      if (rpcError) throw rpcError;
+      // Insert the data using RPC function
+      const { error: insertError } = await supabase.rpc('insert_csv_data', {
+        p_table_name: newTableName,
+        p_data: dataWithIds
+      } as never);
 
-      return newTableName;
+      if (insertError) throw insertError;
+
+      return { tableName: newTableName, uploadId: newUploadId };
     } catch (error) {
       console.error('Error creating CSV table:', error);
       toast({
@@ -138,27 +169,17 @@ const Dashboard = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      // Insert the cleaned data into the dynamic table
-      const { error: insertError } = await supabase
-        .from(tableName)
-        .insert(
-          cleanedData.map(row => ({
-            ...row,
-            linkedin_scrape_data: null,
-            website_scrape_data: null,
-            personalized_line_v1: null,
-            personalized_line_v2: null,
-            personalized_line_v3: null,
-            user_id: user.id
-          }))
-        );
-
-      if (insertError) throw insertError;
+      // Create table and save data
+      const { tableName: newTableName, uploadId: newUploadId } = await createCsvTable(
+        Object.keys(cleanedData[0]),
+        uploadedFile?.name || 'data.csv',
+        cleanedData
+      );
 
       // Create processing jobs for each row
-      const processingJobs = cleanedData.map(row => ({
-        upload_id: uploadId,
-        row_id: row.row_id || uuidv4(),
+      const processingJobs = cleanedData.map(() => ({
+        upload_id: newUploadId,
+        row_id: uuidv4(),
         status: 'pending' as JobStatus,
         user_id: user.id
       }));
@@ -167,18 +188,22 @@ const Dashboard = () => {
         .from('csv_processing_jobs')
         .insert(processingJobs);
 
-      if (jobsError) throw jobsError;
+      if (jobsError) {
+        console.error('Error creating processing jobs:', jobsError);
+        throw jobsError;
+      }
 
       // Update upload status
       const { error: statusError } = await supabase
         .from('csv_uploads')
         .update({ status: 'processing' })
-        .eq('upload_id', uploadId)
+        .eq('upload_id', newUploadId)
         .eq('user_id', user.id);
 
       if (statusError) throw statusError;
 
       setDisplayData(cleanedData);
+
       toast({
         title: "Data saved successfully",
         description: `${cleanedData.length} rows have been processed and saved`

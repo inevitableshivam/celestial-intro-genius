@@ -9,6 +9,258 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      "csv_data_45f5109b-2ccb-4050-8a3a-749c228fc545": {
+        Row: {
+          id: string
+          link: string | null
+          name: string | null
+          url: string | null
+        }
+        Insert: {
+          id?: string
+          link?: string | null
+          name?: string | null
+          url?: string | null
+        }
+        Update: {
+          id?: string
+          link?: string | null
+          name?: string | null
+          url?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_465ef34f-bf42-47d5-954c-1f30a88de115": {
+        Row: {
+          id: string
+          link: string | null
+          name: string | null
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          link?: string | null
+          name?: string | null
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          id?: string
+          link?: string | null
+          name?: string | null
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      "csv_data_545b2587-9fb3-4d89-8f4d-1b8f22e9d21e": {
+        Row: {
+          id: string
+          link: string | null
+          linkedin_scrape_data: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          url: string | null
+          user_id: string
+          website_scrape_data: string | null
+        }
+        Insert: {
+          id?: string
+          link?: string | null
+          linkedin_scrape_data?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          url?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+        }
+        Update: {
+          id?: string
+          link?: string | null
+          linkedin_scrape_data?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          url?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_5e4c2c61-a32f-4d9e-b731-809dbf0955fd": {
+        Row: {
+          id: string
+          link: string | null
+          name: string | null
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          link?: string | null
+          name?: string | null
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          id?: string
+          link?: string | null
+          name?: string | null
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      "csv_data_a24e577b-c034-41ce-babb-56ab2a95ab85": {
+        Row: {
+          id: string
+          link: string | null
+          linkedin_scrape_data: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          url: string | null
+          user_id: string
+          website_scrape_data: string | null
+        }
+        Insert: {
+          id?: string
+          link?: string | null
+          linkedin_scrape_data?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          url?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+        }
+        Update: {
+          id?: string
+          link?: string | null
+          linkedin_scrape_data?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          url?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_a8511216-545a-4262-afac-1ac50befe2d9": {
+        Row: {
+          id: string
+          link: string | null
+          name: string | null
+          url: string | null
+        }
+        Insert: {
+          id?: string
+          link?: string | null
+          name?: string | null
+          url?: string | null
+        }
+        Update: {
+          id?: string
+          link?: string | null
+          name?: string | null
+          url?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_bed851f2-bcf9-42bb-b9bd-d274d4447679": {
+        Row: {
+          id: string
+          link: string | null
+          name: string | null
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          link?: string | null
+          name?: string | null
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          id?: string
+          link?: string | null
+          name?: string | null
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      "csv_data_deea1cd0-e730-498c-9391-c05cb2091336": {
+        Row: {
+          id: string
+          link: string | null
+          linkedin_scrape_data: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          url: string | null
+          user_id: string
+          website_scrape_data: string | null
+        }
+        Insert: {
+          id?: string
+          link?: string | null
+          linkedin_scrape_data?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          url?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+        }
+        Update: {
+          id?: string
+          link?: string | null
+          linkedin_scrape_data?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          url?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_ee7e9c23-78ab-4fe3-88cf-58942d925242": {
+        Row: {
+          id: string
+          link: string | null
+          name: string | null
+          url: string | null
+        }
+        Insert: {
+          id?: string
+          link?: string | null
+          name?: string | null
+          url?: string | null
+        }
+        Update: {
+          id?: string
+          link?: string | null
+          name?: string | null
+          url?: string | null
+        }
+        Relationships: []
+      }
       csv_processing_jobs: {
         Row: {
           created_at: string | null
@@ -19,6 +271,7 @@ export type Database = {
           status: Database["public"]["Enums"]["job_status"] | null
           updated_at: string | null
           upload_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string | null
@@ -29,6 +282,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["job_status"] | null
           updated_at?: string | null
           upload_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string | null
@@ -39,6 +293,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["job_status"] | null
           updated_at?: string | null
           upload_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -258,6 +513,12 @@ export type Database = {
         }
         Returns: undefined
       }
+      fetch_csv_data: {
+        Args: {
+          p_table_name: string
+        }
+        Returns: Json[]
+      }
       get_all_notifications: {
         Args: {
           p_user_id: string
@@ -290,6 +551,13 @@ export type Database = {
           p_user_id: string
         }
         Returns: number
+      }
+      insert_csv_data: {
+        Args: {
+          p_table_name: string
+          p_data: Json
+        }
+        Returns: undefined
       }
       mark_notifications_as_read: {
         Args: {
