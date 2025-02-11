@@ -26,15 +26,20 @@ interface Resource {
 const Resources = () => {
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
 
-  const { data: resources, isLoading } = useQuery({
+  const { data: resources, isLoading, error } = useQuery({
     queryKey: ['resources'],
     queryFn: async () => {
+      console.log('Fetching resources...');
       const { data, error } = await supabase
         .from('resources')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching resources:', error);
+        throw error;
+      }
+      console.log('Fetched resources:', data);
       return data as Resource[];
     },
   });
@@ -43,6 +48,23 @@ const Resources = () => {
     return (
       <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
         <div className="text-lg text-muted-foreground">Loading resources...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    console.error('Error in component:', error);
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
+        <div className="text-lg text-destructive">Error loading resources. Please try again later.</div>
+      </div>
+    );
+  }
+
+  if (!resources || resources.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
+        <div className="text-lg text-muted-foreground">No resources available.</div>
       </div>
     );
   }
