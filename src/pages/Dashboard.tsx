@@ -54,9 +54,18 @@ const Dashboard = () => {
       const newTableName = `csv_data_${tableId}`;
       setTableName(newTableName);
 
-      // Add our additional columns to the headers
+      // Filter out the columns that will be renamed
+      const filteredHeaders = headers.filter(header => 
+        columnMapping && 
+        header !== columnMapping.websiteColumn && 
+        header !== columnMapping.linkedinColumn
+      );
+
+      // Add our additional columns to the headers, including the renamed columns
       const allHeaders = [
-        ...headers,
+        ...filteredHeaders,
+        'website_url',
+        'linkedin_url',
         'linkedin_scrape_data',
         'website_scrape_data',
         'personalized_line_v1',
@@ -91,18 +100,22 @@ const Dashboard = () => {
 
       // Prepare the data for insertion with renamed columns
       const dataWithIds = cleanedData.map(row => {
-        const newRow = { ...row };
-        // Rename the selected columns
-        if (columnMapping) {
-          if (columnMapping.websiteColumn) {
-            newRow.website_url = row[columnMapping.websiteColumn];
-            delete newRow[columnMapping.websiteColumn];
+        const newRow: any = {};
+        
+        // Copy all columns except the ones being renamed
+        Object.entries(row).forEach(([key, value]) => {
+          if (columnMapping) {
+            if (key === columnMapping.websiteColumn) {
+              newRow.website_url = value;
+            } else if (key === columnMapping.linkedinColumn) {
+              newRow.linkedin_url = value;
+            } else if (key !== columnMapping.websiteColumn && key !== columnMapping.linkedinColumn) {
+              newRow[key] = value;
+            }
           }
-          if (columnMapping.linkedinColumn) {
-            newRow.linkedin_url = row[columnMapping.linkedinColumn];
-            delete newRow[columnMapping.linkedinColumn];
-          }
-        }
+        });
+
+        // Add additional fields
         return {
           ...newRow,
           linkedin_scrape_data: null,
@@ -115,13 +128,18 @@ const Dashboard = () => {
         };
       });
 
+      console.log('Data being inserted:', dataWithIds); // Debug log
+
       // Insert the data using RPC function
       const { error: insertError } = await supabase.rpc('insert_csv_data', {
         p_table_name: newTableName,
         p_data: dataWithIds
       } as never);
 
-      if (insertError) throw insertError;
+      if (insertError) {
+        console.error('Insert error:', insertError); // Debug log
+        throw insertError;
+      }
 
       return { tableName: newTableName, uploadId: newUploadId };
     } catch (error) {
@@ -211,7 +229,23 @@ const Dashboard = () => {
 
       if (statusError) throw statusError;
 
-      setDisplayData(cleanedData);
+      // Update display data to show renamed columns
+      const renamedDisplayData = cleanedData.map(row => {
+        const newRow = { ...row };
+        if (columnMapping) {
+          if (columnMapping.websiteColumn) {
+            newRow.website_url = row[columnMapping.websiteColumn];
+            delete newRow[columnMapping.websiteColumn];
+          }
+          if (columnMapping.linkedinColumn) {
+            newRow.linkedin_url = row[columnMapping.linkedinColumn];
+            delete newRow[columnMapping.linkedinColumn];
+          }
+        }
+        return newRow;
+      });
+
+      setDisplayData(renamedDisplayData);
 
       toast({
         title: "Data saved successfully",

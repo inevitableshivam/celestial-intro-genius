@@ -156,6 +156,108 @@ export type Database = {
         }
         Relationships: []
       }
+      "csv_data_7193ffbc-2f9e-4bc3-a944-72d09f092ec5": {
+        Row: {
+          City: string | null
+          "Company City": string | null
+          "Company Country": string | null
+          "Company Facebook Url": string | null
+          "Company Linkedin Url": string | null
+          "Company Name": string | null
+          "Company Phone Numbers": string | null
+          "Company State": string | null
+          "Company Twitter Url": string | null
+          "Company Website": string | null
+          Country: string | null
+          Email: string | null
+          "Email Status": string | null
+          Employees: string | null
+          "Facebook Url": string | null
+          "First Name": string | null
+          "Full Name": string | null
+          id: string
+          Industry: string | null
+          "Job Title": string | null
+          Keywords: string | null
+          "Last Name": string | null
+          "Linkedin Url": string | null
+          linkedin_scrape_data: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          State: string | null
+          "Twitter Url": string | null
+          user_id: string
+          website_scrape_data: string | null
+        }
+        Insert: {
+          City?: string | null
+          "Company City"?: string | null
+          "Company Country"?: string | null
+          "Company Facebook Url"?: string | null
+          "Company Linkedin Url"?: string | null
+          "Company Name"?: string | null
+          "Company Phone Numbers"?: string | null
+          "Company State"?: string | null
+          "Company Twitter Url"?: string | null
+          "Company Website"?: string | null
+          Country?: string | null
+          Email?: string | null
+          "Email Status"?: string | null
+          Employees?: string | null
+          "Facebook Url"?: string | null
+          "First Name"?: string | null
+          "Full Name"?: string | null
+          id?: string
+          Industry?: string | null
+          "Job Title"?: string | null
+          Keywords?: string | null
+          "Last Name"?: string | null
+          "Linkedin Url"?: string | null
+          linkedin_scrape_data?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          State?: string | null
+          "Twitter Url"?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+        }
+        Update: {
+          City?: string | null
+          "Company City"?: string | null
+          "Company Country"?: string | null
+          "Company Facebook Url"?: string | null
+          "Company Linkedin Url"?: string | null
+          "Company Name"?: string | null
+          "Company Phone Numbers"?: string | null
+          "Company State"?: string | null
+          "Company Twitter Url"?: string | null
+          "Company Website"?: string | null
+          Country?: string | null
+          Email?: string | null
+          "Email Status"?: string | null
+          Employees?: string | null
+          "Facebook Url"?: string | null
+          "First Name"?: string | null
+          "Full Name"?: string | null
+          id?: string
+          Industry?: string | null
+          "Job Title"?: string | null
+          Keywords?: string | null
+          "Last Name"?: string | null
+          "Linkedin Url"?: string | null
+          linkedin_scrape_data?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          State?: string | null
+          "Twitter Url"?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+        }
+        Relationships: []
+      }
       "csv_data_a24e577b-c034-41ce-babb-56ab2a95ab85": {
         Row: {
           id: string
@@ -237,6 +339,45 @@ export type Database = {
           name?: string | null
           url?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      "csv_data_c9f46395-8a68-420d-af43-89dd520d36b5": {
+        Row: {
+          id: string
+          link: string | null
+          linkedin_scrape_data: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          url: string | null
+          user_id: string
+          website_scrape_data: string | null
+        }
+        Insert: {
+          id?: string
+          link?: string | null
+          linkedin_scrape_data?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          url?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+        }
+        Update: {
+          id?: string
+          link?: string | null
+          linkedin_scrape_data?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          url?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
         }
         Relationships: []
       }
