@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
@@ -11,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { X } from "lucide-react";
 
 interface Blog {
   id: string;
@@ -76,7 +76,7 @@ const Resources = () => {
     <div className="flex-1 h-[calc(100vh-4rem)] overflow-y-auto p-8">
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {blogs?.map((blog) => (
-          <Card key={blog.id} className="flex flex-col bg-card border-border overflow-hidden hover:border-primary/50 transition-colors">
+          <Card key={blog.id} className="flex flex-col overflow-hidden hover:border-primary/50 transition-colors backdrop-blur-md bg-white/10 border border-white/20 shadow-lg">
             <div className="aspect-video relative overflow-hidden">
               <img
                 src={blog.image_url}
@@ -108,32 +108,34 @@ const Resources = () => {
       </div>
 
       <Dialog open={!!selectedBlog} onOpenChange={() => setSelectedBlog(null)}>
-        <DialogContent className="max-w-[70vw] max-h-[90vh] flex flex-col">
-          <DialogHeader className="relative">
-            {selectedBlog && (
-              <>
-                <div className="aspect-[21/9] overflow-hidden rounded-t-lg -mx-6 -mt-6">
-                  <img
-                    src={selectedBlog.image_url}
-                    alt={selectedBlog.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <DialogTitle className="text-2xl font-semibold mt-4">
-                  {selectedBlog.title}
-                </DialogTitle>
-              </>
-            )}
-          </DialogHeader>
-          <ScrollArea className="flex-1 -mx-6 px-6">
-            {selectedBlog && (
-              <div className="py-4 text-muted-foreground">
-                <div className="prose prose-invert max-w-none">
-                  {selectedBlog.content}
+        <DialogContent className="max-w-[70vw] h-[85vh] p-0 flex flex-col backdrop-blur-md bg-white/10 border border-white/20 shadow-lg">
+          {selectedBlog && (
+            <ScrollArea className="h-full w-full">
+              <div className="overflow-hidden rounded-t-xl">
+                <img
+                  src={selectedBlog.image_url}
+                  alt={selectedBlog.title}
+                  className="w-full h-[300px] object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <DialogHeader className="mb-4">
+                  <DialogTitle className="text-2xl font-semibold">
+                    {selectedBlog.title}
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="text-white/90">
+                  <div className="prose prose-invert max-w-none">
+                    {selectedBlog.content.split('\n\n').map((paragraph, index) => (
+                      <p key={index} className="mb-8 text-white/80 leading-relaxed">
+                        {paragraph.trim()}
+                      </p>
+                    ))}
+                  </div>
                 </div>
               </div>
-            )}
-          </ScrollArea>
+            </ScrollArea>
+          )}
         </DialogContent>
       </Dialog>
     </div>
