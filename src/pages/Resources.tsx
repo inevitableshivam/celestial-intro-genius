@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
@@ -75,7 +74,6 @@ const Resources = () => {
 
   return (
     <div className="flex-1 h-[calc(100vh-4rem)] overflow-y-auto p-8">
-      {/* Grid of Blog Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {blogs?.map((blog) => (
           <Card key={blog.id} className="flex flex-col bg-card border-border overflow-hidden hover:border-primary/50 transition-colors">
@@ -108,18 +106,9 @@ const Resources = () => {
         ))}
       </div>
 
-      {/* Blog Details Modal */}
       <Dialog open={!!selectedBlog} onOpenChange={() => setSelectedBlog(null)}>
         <DialogContent className="max-w-[70vw] max-h-[90vh] flex flex-col">
           <DialogHeader className="relative">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-0 top-0"
-              onClick={() => setSelectedBlog(null)}
-            >
-              <X className="h-4 w-4" />
-            </Button>
             {selectedBlog && (
               <>
                 <div className="aspect-[21/9] overflow-hidden rounded-t-lg -mx-6 -mt-6">
