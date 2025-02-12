@@ -9,6 +9,36 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      blogs: {
+        Row: {
+          bullet_points: string
+          content: string
+          created_at: string | null
+          id: string
+          image_url: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          bullet_points: string
+          content: string
+          created_at?: string | null
+          id?: string
+          image_url: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          bullet_points?: string
+          content?: string
+          created_at?: string | null
+          id?: string
+          image_url?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       "csv_data_080bcf17-83c9-43a7-a09e-983c79db5309": {
         Row: {
           id: string

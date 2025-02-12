@@ -13,7 +13,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { X } from 'lucide-react';
 
-interface Resource {
+interface Blog {
   id: string;
   title: string;
   image_url: string;
@@ -24,23 +24,23 @@ interface Resource {
 }
 
 const Resources = () => {
-  const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
+  const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
 
-  const { data: resources, isLoading, error } = useQuery({
-    queryKey: ['resources'],
+  const { data: blogs, isLoading, error } = useQuery({
+    queryKey: ['blogs'],
     queryFn: async () => {
-      console.log('Fetching resources...');
+      console.log('Fetching blogs...');
       const { data, error } = await supabase
-        .from('resources')
+        .from('blogs')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Error fetching resources:', error);
+        console.error('Error fetching blogs:', error);
         throw error;
       }
-      console.log('Fetched resources:', data);
-      return data as Resource[];
+      console.log('Fetched blogs:', data);
+      return data as Blog[];
     },
   });
 
@@ -61,7 +61,7 @@ const Resources = () => {
     );
   }
 
-  if (!resources || resources.length === 0) {
+  if (!blogs || blogs.length === 0) {
     return (
       <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
         <div className="text-lg text-muted-foreground">No resources available.</div>
@@ -74,24 +74,24 @@ const Resources = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-4rem)] w-[calc(100vw-280px)] overflow-y-auto p-8">
-      {/* Grid of Resource Cards */}
+    <div className="flex-1 h-[calc(100vh-4rem)] overflow-y-auto p-8">
+      {/* Grid of Blog Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {resources?.map((resource) => (
-          <Card key={resource.id} className="flex flex-col bg-card border-border overflow-hidden hover:border-primary/50 transition-colors">
+        {blogs?.map((blog) => (
+          <Card key={blog.id} className="flex flex-col bg-card border-border overflow-hidden hover:border-primary/50 transition-colors">
             <div className="aspect-video relative overflow-hidden">
               <img
-                src={resource.image_url}
-                alt={resource.title}
+                src={blog.image_url}
+                alt={blog.title}
                 className="object-cover w-full h-full"
               />
             </div>
             <CardHeader className="space-y-1">
-              <h3 className="text-xl font-semibold tracking-tight">{resource.title}</h3>
+              <h3 className="text-xl font-semibold tracking-tight">{blog.title}</h3>
             </CardHeader>
             <CardContent>
               <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                {formatBulletPoints(resource.bullet_points).map((point, index) => (
+                {formatBulletPoints(blog.bullet_points).map((point, index) => (
                   <li key={index}>{point}</li>
                 ))}
               </ul>
@@ -99,7 +99,7 @@ const Resources = () => {
             <CardFooter className="mt-auto pt-6">
               <Button 
                 className="w-full"
-                onClick={() => setSelectedResource(resource)}
+                onClick={() => setSelectedBlog(blog)}
               >
                 Learn More
               </Button>
@@ -108,38 +108,38 @@ const Resources = () => {
         ))}
       </div>
 
-      {/* Resource Details Modal */}
-      <Dialog open={!!selectedResource} onOpenChange={() => setSelectedResource(null)}>
+      {/* Blog Details Modal */}
+      <Dialog open={!!selectedBlog} onOpenChange={() => setSelectedBlog(null)}>
         <DialogContent className="max-w-[70vw] max-h-[90vh] flex flex-col">
           <DialogHeader className="relative">
             <Button
               variant="ghost"
               size="icon"
               className="absolute right-0 top-0"
-              onClick={() => setSelectedResource(null)}
+              onClick={() => setSelectedBlog(null)}
             >
               <X className="h-4 w-4" />
             </Button>
-            {selectedResource && (
+            {selectedBlog && (
               <>
                 <div className="aspect-[21/9] overflow-hidden rounded-t-lg -mx-6 -mt-6">
                   <img
-                    src={selectedResource.image_url}
-                    alt={selectedResource.title}
+                    src={selectedBlog.image_url}
+                    alt={selectedBlog.title}
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <DialogTitle className="text-2xl font-semibold mt-4">
-                  {selectedResource.title}
+                  {selectedBlog.title}
                 </DialogTitle>
               </>
             )}
           </DialogHeader>
           <ScrollArea className="flex-1 -mx-6 px-6">
-            {selectedResource && (
+            {selectedBlog && (
               <div className="py-4 text-muted-foreground">
                 <div className="prose prose-invert max-w-none">
-                  {selectedResource.content}
+                  {selectedBlog.content}
                 </div>
               </div>
             )}
