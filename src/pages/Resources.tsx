@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery } from '@tanstack/react-query';
@@ -10,7 +11,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { X } from 'lucide-react';
 
 interface Blog {
   id: string;
@@ -74,7 +74,7 @@ const Resources = () => {
 
   return (
     <div className="flex-1 h-[calc(100vh-4rem)] overflow-y-auto p-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {blogs?.map((blog) => (
           <Card key={blog.id} className="flex flex-col bg-card border-border overflow-hidden hover:border-primary/50 transition-colors">
             <div className="aspect-video relative overflow-hidden">
@@ -84,18 +84,19 @@ const Resources = () => {
                 className="object-cover w-full h-full"
               />
             </div>
-            <CardHeader className="space-y-1">
-              <h3 className="text-xl font-semibold tracking-tight">{blog.title}</h3>
+            <CardHeader className="space-y-1 p-4">
+              <h3 className="text-base font-semibold tracking-tight line-clamp-2">{blog.title}</h3>
             </CardHeader>
-            <CardContent>
-              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+            <CardContent className="p-4 pt-0">
+              <ul className="list-disc list-inside space-y-1 text-xs text-muted-foreground">
                 {formatBulletPoints(blog.bullet_points).map((point, index) => (
-                  <li key={index}>{point}</li>
+                  <li key={index} className="line-clamp-1">{point}</li>
                 ))}
               </ul>
             </CardContent>
-            <CardFooter className="mt-auto pt-6">
+            <CardFooter className="mt-auto p-4 pt-0">
               <Button 
+                size="sm"
                 className="w-full"
                 onClick={() => setSelectedBlog(blog)}
               >
