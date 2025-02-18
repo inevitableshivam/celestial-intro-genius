@@ -69,7 +69,10 @@ export const ProcessingStep = ({ tableName }: { tableName: string }) => {
     fetchInitialStats();
 
     // Subscribe to real-time updates
-    const channel = supabase.channel('table_changes')
+    const channel = supabase.channel('table_changes');
+
+    channel
+      .subscribe()
       .on('postgres_changes', { 
         event: 'UPDATE', 
         schema: 'public', 
@@ -107,8 +110,7 @@ export const ProcessingStep = ({ tableName }: { tableName: string }) => {
 
           return newStats;
         });
-      })
-      .subscribe();
+      });
 
     return () => {
       supabase.removeChannel(channel);
