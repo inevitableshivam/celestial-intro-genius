@@ -5,7 +5,6 @@ import { CsvViewer } from '@/components/CsvViewer';
 import { ColumnMapper } from '@/components/ColumnMapper';
 import { DataCleaner } from '@/components/DataCleaner';
 import { ServiceDetails } from '@/components/ServiceDetails';
-import { ProcessingStep } from '@/components/ProcessingStep';
 import { supabase } from '@/integrations/supabase/client';
 import Papa from 'papaparse';
 import { useToast } from '@/components/ui/use-toast';
@@ -294,15 +293,13 @@ const Dashboard = () => {
             onNext={() => setCurrentStep('process')}
           />
         );
-      case 'process':
-        return tableName ? <ProcessingStep tableName={tableName} /> : null;
       default:
         return null;
     }
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-4rem)] w-[calc(100vw-280px)] overflow-hidden">
       <div className="flex-none p-8 pb-4">
         <h1 className="text-3xl font-bold text-nebula-100">Data Dashboard</h1>
       </div>
