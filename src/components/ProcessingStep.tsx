@@ -11,6 +11,15 @@ interface ProcessingStats {
   personalization_completed: number;
 }
 
+interface ProcessingData {
+  id: string;
+  linkedin_scrape_data: string | null;
+  website_scrape_data: string | null;
+  personalized_line_v1: string | null;
+  personalized_line_v2: string | null;
+  personalized_line_v3: string | null;
+}
+
 export const ProcessingStep = ({ tableName }: { tableName: string }) => {
   const [stats, setStats] = useState<ProcessingStats>({
     totalRows: 0,
@@ -22,22 +31,18 @@ export const ProcessingStep = ({ tableName }: { tableName: string }) => {
   useEffect(() => {
     const fetchInitialStats = async () => {
       try {
-        // Get total rows
-        const { count } = await supabase
-          .from(tableName)
-          .select('*', { count: 'exact', head: true });
+        // Get total rows using rpc function
+        const { data: rowData, error: countError } = await supabase
+          .rpc('fetch_csv_data', { p_table_name: tableName });
+
+        if (countError) throw countError;
+        const totalRows = rowData ? rowData.length : 0;
 
         // Get completed counts
-        const { data: completedCounts } = await supabase
-          .from(tableName)
-          .select(`
-            id,
-            linkedin_scrape_data,
-            website_scrape_data,
-            personalized_line_v1,
-            personalized_line_v2,
-            personalized_line_v3
-          `);
+        const { data: completedCounts, error: dataError } = await supabase
+          .rpc('fetch_csv_data', { p_table_name: tableName }) as { data: ProcessingData[] | null, error: any };
+
+        if (dataError) throw dataError;
 
         if (completedCounts) {
           const linkedin_completed = completedCounts.filter(row => row.linkedin_scrape_data !== null).length;
@@ -49,7 +54,7 @@ export const ProcessingStep = ({ tableName }: { tableName: string }) => {
           ).length;
 
           setStats({
-            totalRows: count || 0,
+            totalRows,
             linkedin_completed,
             website_completed,
             personalization_completed,
@@ -72,11 +77,11 @@ export const ProcessingStep = ({ tableName }: { tableName: string }) => {
           schema: 'public',
           table: tableName,
         },
-        (payload) => {
+        (payload: { old: ProcessingData, new: ProcessingData }) => {
           console.log('Received update:', payload);
           setStats(currentStats => {
             const newStats = { ...currentStats };
-            const row = payload.new as any;
+            const row = payload.new;
 
             // Update LinkedIn stats
             if (!payload.old.linkedin_scrape_data && row.linkedin_scrape_data) {
