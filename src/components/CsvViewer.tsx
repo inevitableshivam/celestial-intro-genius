@@ -1,7 +1,7 @@
 
 import { useMemo } from 'react';
 import DataGrid from 'react-data-grid';
-import 'react-data-grid/lib/styles.css';
+import 'react-data-grid/styles.css';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 // Custom CSS for the data grid
@@ -107,3 +107,4 @@ export const CsvViewer = ({ data, columnMapping }: CsvViewerProps) => {
     </div>
   );
 };
+
