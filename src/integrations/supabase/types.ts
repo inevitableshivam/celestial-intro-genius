@@ -78,6 +78,240 @@ export type Database = {
         }
         Relationships: []
       }
+      "csv_data_24b3ad1a-bc36-4b5c-b681-d0a9bbbda678": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_25e484cb-056b-479c-904b-d3a18d213d05": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_2cdfde6f-31b8-4003-9c94-089209c00620": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_360c1c7b-b30a-44b2-b177-27262c3d8ef8": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_36b3000e-b74c-479b-bd1a-f4fc2ec97525": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_3e5ecffd-9b77-4a5f-869b-6482549aad07": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       "csv_data_45f5109b-2ccb-4050-8a3a-749c228fc545": {
         Row: {
           id: string
@@ -387,6 +621,162 @@ export type Database = {
         }
         Relationships: []
       }
+      "csv_data_ab0db844-31c0-437e-9855-93179af5581d": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_b1480e33-a4c2-4c6b-a6ac-9fcf9c0a87ac": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_b4bb8887-17f1-4d0e-9246-d8da4fd0029a": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_b849dbdd-1533-4d9d-97b8-cb1819d89dfc": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       "csv_data_bed851f2-bcf9-42bb-b9bd-d274d4447679": {
         Row: {
           id: string
@@ -528,6 +918,45 @@ export type Database = {
         }
         Relationships: []
       }
+      "csv_data_e08c5e77-d9cd-4ffc-bfd1-52d64f5e6adc": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       "csv_data_e7071f03-cfbc-4283-8a4a-f953851e4028": {
         Row: {
           id: string
@@ -567,6 +996,45 @@ export type Database = {
         }
         Relationships: []
       }
+      "csv_data_e7f05de8-d678-44a9-9090-0d7ef038a375": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       "csv_data_ee7e9c23-78ab-4fe3-88cf-58942d925242": {
         Row: {
           id: string
@@ -585,6 +1053,45 @@ export type Database = {
           link?: string | null
           name?: string | null
           url?: string | null
+        }
+        Relationships: []
+      }
+      "csv_data_ff701883-f1bc-46af-a3c7-4104b41b0cdf": {
+        Row: {
+          id: string
+          linkedin_scrape_data: string | null
+          linkedin_url: string | null
+          name: string | null
+          personalized_line_v1: string | null
+          personalized_line_v2: string | null
+          personalized_line_v3: string | null
+          user_id: string
+          website_scrape_data: string | null
+          website_url: string | null
+        }
+        Insert: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id: string
+          website_scrape_data?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          id?: string
+          linkedin_scrape_data?: string | null
+          linkedin_url?: string | null
+          name?: string | null
+          personalized_line_v1?: string | null
+          personalized_line_v2?: string | null
+          personalized_line_v3?: string | null
+          user_id?: string
+          website_scrape_data?: string | null
+          website_url?: string | null
         }
         Relationships: []
       }
