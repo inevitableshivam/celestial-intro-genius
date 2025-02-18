@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";
+import { RealtimeChannel } from '@supabase/supabase-js';
 
 interface ProcessingStats {
   totalRows: number;
@@ -68,50 +69,45 @@ export const ProcessingStep = ({ tableName }: { tableName: string }) => {
     fetchInitialStats();
 
     // Subscribe to real-time updates
-    const channel = supabase
-      .channel('table_changes')
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: tableName,
-        },
-        (payload: { old: ProcessingData, new: ProcessingData }) => {
-          console.log('Received update:', payload);
-          setStats(currentStats => {
-            const newStats = { ...currentStats };
-            const row = payload.new;
+    const channel = supabase.channel('table_changes')
+      .on('postgres_changes', { 
+        event: 'UPDATE', 
+        schema: 'public', 
+        table: tableName 
+      }, (payload: { old: ProcessingData, new: ProcessingData }) => {
+        console.log('Received update:', payload);
+        setStats(currentStats => {
+          const newStats = { ...currentStats };
+          const row = payload.new;
 
-            // Update LinkedIn stats
-            if (!payload.old.linkedin_scrape_data && row.linkedin_scrape_data) {
-              newStats.linkedin_completed++;
-            }
+          // Update LinkedIn stats
+          if (!payload.old.linkedin_scrape_data && row.linkedin_scrape_data) {
+            newStats.linkedin_completed++;
+          }
 
-            // Update Website stats
-            if (!payload.old.website_scrape_data && row.website_scrape_data) {
-              newStats.website_completed++;
-            }
+          // Update Website stats
+          if (!payload.old.website_scrape_data && row.website_scrape_data) {
+            newStats.website_completed++;
+          }
 
-            // Update Personalization stats
-            const oldPersonalizationComplete = 
-              payload.old.personalized_line_v1 && 
-              payload.old.personalized_line_v2 && 
-              payload.old.personalized_line_v3;
-            
-            const newPersonalizationComplete = 
-              row.personalized_line_v1 && 
-              row.personalized_line_v2 && 
-              row.personalized_line_v3;
+          // Update Personalization stats
+          const oldPersonalizationComplete = 
+            payload.old.personalized_line_v1 && 
+            payload.old.personalized_line_v2 && 
+            payload.old.personalized_line_v3;
+          
+          const newPersonalizationComplete = 
+            row.personalized_line_v1 && 
+            row.personalized_line_v2 && 
+            row.personalized_line_v3;
 
-            if (!oldPersonalizationComplete && newPersonalizationComplete) {
-              newStats.personalization_completed++;
-            }
+          if (!oldPersonalizationComplete && newPersonalizationComplete) {
+            newStats.personalization_completed++;
+          }
 
-            return newStats;
-          });
-        }
-      )
+          return newStats;
+        });
+      })
       .subscribe();
 
     return () => {
